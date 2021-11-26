@@ -1,15 +1,13 @@
 class Solution {
 public:
     int searchInsert(vector<int>& nums, int target) {
-        int start = 0, end = nums.size()-1;
-        
-        while(start <= end){
-            int mid = start + (end - start) / 2;
-            if(nums[mid] == target) return mid;
-            else if(nums[mid] < target) start = mid + 1;
-            else end = mid - 1;
-            cout << end << endl;
+        int lo=0,hi=nums.size()-1;
+        while(lo <= hi){
+            int mid = lo + (hi-lo)/2;
+            if(target == nums[mid]) return mid;
+            else if(target > nums[mid]) lo = mid+1;
+            else hi = mid-1;
         }
-        return start;
+        return lo;
     }
 };
