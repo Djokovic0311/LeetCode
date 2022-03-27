@@ -12,7 +12,7 @@ struct CompareHeapElements {
 };
 
 class Solution {
-    // calculate the soldier count using binary search
+
     int calculateSoldierCount(vector<int>& v) {
         int l=0; int h=v.size()-1;
         while(l<=h) {
