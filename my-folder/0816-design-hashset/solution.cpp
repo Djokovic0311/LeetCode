@@ -33,6 +33,7 @@ public:
 		return search(key) != table[h].end();
 	}
 };
+
 /**
  * Your MyHashSet object will be instantiated and called as such:
  * MyHashSet* obj = new MyHashSet();
