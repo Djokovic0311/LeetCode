@@ -7,6 +7,6 @@ public:
                 ++cnt;
             n=n>>1; //n=n/2, shift one bit to right
         }
-        return cnt;        
+        return cnt;    
     }
 };
