@@ -1,13 +1,12 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        vector<int> dict(26,0);
-        int n = s.length();
-        for(int i = 0; i < n; i++) {
-            dict[s[i]-'a']++;
+        unordered_map<char, int> m;
+        for (char& c : s) {
+            m[c]++;
         }
-        for(int i = 0; i < n; i++) {
-            if(dict[s[i]-'a'] == 1) return i;
+        for (int i = 0; i < s.size(); i++) {
+            if (m[s[i]] == 1) return i;
         }
         return -1;
     }
