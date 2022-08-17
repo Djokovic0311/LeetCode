@@ -1,15 +1,16 @@
 class Solution {
 public:
-    int uniqueMorseRepresentations(vector<string>& words) {
-        vector<string> alphabet = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
-        set<string> res;
-        for(auto word: words) {
-            string tmp = "";
-            for(char c : word) {
-                tmp += alphabet[c-'a'];
-            }
-            res.insert(tmp);
-        }
-        return res.size();
+int uniqueMorseRepresentations(vector<string>& words) {
+    vector<string> morse_code = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+    unordered_set<string> gen_codes;
+    
+    for(auto word : words) {
+        string code = "";
+        for(auto ch : word)
+            code += morse_code[ch - 'a'];
+        gen_codes.insert(code);
     }
+    
+    return gen_codes.size();
+}
 };
