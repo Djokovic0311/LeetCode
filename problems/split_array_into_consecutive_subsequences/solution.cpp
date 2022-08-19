@@ -4,11 +4,13 @@ public:
         unordered_map<int,int> mp;
         for(auto& it:nums)
             mp[it]++;
+        
         for(auto& it:nums)
         {
             if(mp[it] == 0)
                 continue;
-            int freq = mp[it] , curr = it , count = 0;
+            int count = 0;
+            int freq = mp[it] , curr = it;
             while(mp[curr] >= freq)
             {
                 freq = max(freq,mp[curr]);
