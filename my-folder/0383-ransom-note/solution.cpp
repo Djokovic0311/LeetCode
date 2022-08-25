@@ -1,15 +1,21 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        vector<int> dict(26,0);
-        for(int i = 0; i < magazine.size(); i++) {
-            dict[magazine[i]-'a']++;
+        //ransomeNote can be constructed from magazine if magazine contains all the letter used in making ransomeNote
+        unordered_map<char, int> m;
+        
+        //store all the char of magazine so that it can be searched easily
+        for(auto x: magazine){
+            m[x]++;
         }
-        for(int i = 0; i < ransomNote.size(); i++) {
-            dict[ransomNote[i]-'a']--;
-        }
-        for(int i = 0; i < 26; i++) {
-            if(dict[i] < 0) return false;
+        
+		//iterate ransomeNote 
+        for(auto x: ransomNote){
+		//magazine  have this char of ransomeNote, used once, decrease frequency
+		// when hit's zero return false.(we r using post decrement)
+            if(!m[x]--){
+                return false;
+            }
         }
         return true;
     }
