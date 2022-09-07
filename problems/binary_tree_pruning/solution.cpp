@@ -12,14 +12,12 @@
 class Solution {
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        if(!root)
-            return NULL;
-        TreeNode* left = pruneTree(root->left);
-        root->left = left;
-        TreeNode* right = pruneTree(root->right);
-        root->right = right;
-        if(root->val == 0 && root->right == NULL && root->left == NULL)
-            return NULL;
+        if(root!=NULL){
+            root->left = pruneTree(root->left);
+            root->right = pruneTree(root->right);
+            if(!root->left && !root->right && root->val==0)
+                return NULL;
+        }
         return root;
     }
 };
