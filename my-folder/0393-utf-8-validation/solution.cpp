@@ -1,15 +1,18 @@
 class Solution {
 public:
     bool validUtf8(vector<int>& data) {
-	int conts = 0;
-	for(int i = 0; i < data.size(); i++) {
-		if(conts--) { if ((data[i] & 0xC0) != 0x80) return false; }
-		else if((data[i] & 0xF8) == 0xF0) conts = 3;
-		else if((data[i] & 0xF0) == 0xE0) conts = 2;
-		else if((data[i] & 0xE0) == 0xC0) conts = 1;
-		else if((data[i] & 0x80) == 0x00) conts = 0;
-		else return false;
-	}
-	return !conts;        
+        int count = 0;
+        for (auto c : data) {
+            if (count == 0) {
+                if ((c >> 5) == 0b110) count = 1;
+                else if ((c >> 4) == 0b1110) count = 2;
+                else if ((c >> 3) == 0b11110) count = 3;
+                else if ((c >> 7)) return false;
+            } else {
+                if ((c >> 6) != 0b10) return false;
+                count--;
+            }
+        }
+        return count == 0;        
     }
 };
