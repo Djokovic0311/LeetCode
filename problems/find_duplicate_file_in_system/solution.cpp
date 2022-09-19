@@ -1,26 +1,31 @@
 class Solution {
 public:
+    int position(string str, int index, char symbole, string &res) {
+        res = "";
+        while(index < str.size() && str[index] != symbole) {
+            res += str[index];
+            index++;
+        }
+        return ++index;
+    }
     vector<vector<string>> findDuplicate(vector<string>& paths) {
-        unordered_map<string, vector<string>> files;
-        vector<vector<string>> result;
-
-        for (auto path : paths) {
-            stringstream ss(path);
-            string root;
-            string s;
-            getline(ss, root, ' ');
-            while (getline(ss, s, ' ')) {
-                string fileName = root + '/' + s.substr(0, s.find('('));
-                string fileContent = s.substr(s.find('(') + 1, s.find(')') - s.find('(') - 1);
-                files[fileContent].push_back(fileName);
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> mp;
+        for(string s: paths) {
+            string root = "";
+            int pos = position(s, 0, ' ', root);
+            while(pos < s.size()) {
+                string subroot = "", file = "";
+                pos = position(s, pos, '(', subroot);
+                pos = position(s, pos, ')', file);
+                mp[file].push_back(root + "/" + subroot);
+                pos++;
             }
         }
-
-        for (auto file : files) {
-            if (file.second.size() > 1)
-                result.push_back(file.second);
+        for(auto it = mp.begin(); it != mp.end(); it++) {
+            if((it->second).size() > 1)
+                res.push_back(it->second);
         }
-
-        return result;        
+        return res;
     }
 };
