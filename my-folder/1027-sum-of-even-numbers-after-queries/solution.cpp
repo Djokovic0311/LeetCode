@@ -1,25 +1,37 @@
 class Solution {
 public:
-    vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries) {
-        vector<int> result;
-        int sum = 0;
-        for(int& i:A){
-            if(i%2==0)  sum += i;
+    vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+
+        int sum = 0, N = queries.size();
+        for (int n : nums) {
+            if (n % 2 == 0) sum += n;
         }
-        for(int i=0;i<queries.size();i++){
-            int temp = A[queries[i][1]];
-            // if previous value was even, subtract it from sum
-            if(temp % 2 == 0){
-                sum -= temp;
+        
+        vector<int> ans(N, 0);
+        
+        // Four cases to handle.
+        for (int i = 0; i < N; i++) {
+            int val = queries[i][0], index = queries[i][1];
+            int oldValue = nums[index];
+            nums[index] += val;
+            
+            bool wasEven = (oldValue % 2) == 0;
+            bool nowEven = (nums[index] % 2 == 0);
+            
+            if (wasEven && nowEven) {
+                ans[i] = sum + val;
+                sum += val;
+            } else if (!wasEven && nowEven) {
+                ans[i] = sum + nums[index];
+                sum += nums[index];
+            } else if (wasEven && !nowEven) {
+                ans[i] = sum - oldValue;
+                sum -= oldValue;
+            } else {
+                ans[i] = sum;
             }
-            A[queries[i][1]] += queries[i][0];
-            // if nnew value is even, add this to sum
-            if(A[queries[i][1]] % 2 == 0){
-                sum += A[queries[i][1]];
-            }
-            // add sum to result
-            result.push_back(sum);
         }
-        return result;
+        
+        return ans;
     }
 };
