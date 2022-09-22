@@ -1,15 +1,14 @@
 class Solution {
 public:
-    string reverseWords(string s) {
-        stringstream ss(s);
-        string res;
-        string tmp;
-        while(ss >> tmp) {
-            reverse(tmp.begin(),tmp.end());
-            res += tmp;
-            res += " ";
+    string reverseWords(string& s) {
+        int i = 0;
+        for (int j = 0; j < s.size(); ++j) {
+            if (s[j] == ' ') {
+                reverse(s.begin() + i, s.begin() + j);
+                i = j + 1;
+            }
         }
-        res.erase(res.size() - 1);
-        return res;
+        reverse(s.begin() + i, s.end());
+        return s;
     }
 };
