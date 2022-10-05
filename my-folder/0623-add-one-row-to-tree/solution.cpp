@@ -11,15 +11,25 @@
  */
 class Solution {
 public:
-    TreeNode* addOneRow(TreeNode* root, int v, int d) {
-        if (d == 0 || d == 1) {
-            TreeNode* newroot = new TreeNode(v);
-            (d ? newroot->left : newroot->right) = root;
-            return newroot;
-        }
-        if (root && d >= 2) {
-            root->left  = addOneRow(root->left,  v, d > 2 ? d - 1 : 1);
-            root->right = addOneRow(root->right, v, d > 2 ? d - 1 : 0);
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        if (depth == 1) return new TreeNode(val, root, NULL);
+        int len;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (--depth) {
+            int len = q.size();
+            for (int i = 0; i < len; i++) {
+                if (depth > 1) {
+                    if (q.front()->left) q.push(q.front()->left);
+                    if (q.front()->right) q.push(q.front()->right);
+                }
+                // right depth reached!
+                else {
+                    q.front()->left = new TreeNode(val, q.front()->left, NULL);
+                    q.front()->right = new TreeNode(val, NULL, q.front()->right);
+                }
+                q.pop();
+            }
         }
         return root;        
     }
