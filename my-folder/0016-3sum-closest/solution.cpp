@@ -15,7 +15,6 @@ public:
                     k--;                 
                 } else if(temp<target){
                     j++;             
-                    
                 }else return target;
             }
             
