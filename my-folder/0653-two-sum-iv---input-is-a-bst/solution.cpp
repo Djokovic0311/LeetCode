@@ -11,24 +11,12 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root) {
-        if (!root) return;
-        inorder(root->left);
-        vec.push_back(root->val);
-        inorder(root->right);
-    }
-    
     bool findTarget(TreeNode* root, int k) {
-        inorder(root);
-        int i = 0, j = vec.size() - 1;
-        while(i < j){
-            if(vec[i] + vec[j] == k) return true;
-            else if(vec[i] + vec[j] < k) i++;
-            else j--;
-        }
-        return false;
+        if(!root) return false;
+        if (s.count(k - root->val)) return true;
+        s.insert(root->val);
+        return findTarget(root->left, k) || findTarget(root->right,  k);
     }
 private:
-    vector<int> vec;
-    
+    unordered_set<int> s;
 };
