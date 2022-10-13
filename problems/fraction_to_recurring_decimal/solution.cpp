@@ -1,47 +1,34 @@
 class Solution {
 public:
-string fractionToDecimal(int64_t n, int64_t d) {
-    // zero numerator
-    if (n == 0) return "0";
-
-    string res;
-    // determine the sign
-    if (n < 0 ^ d < 0) res += '-';
-
-    // remove sign of operands
-    n = abs(n), d = abs(d);
-
-    // append integral part
-    res += to_string(n / d);
-
-    // in case no fractional part
-    if (n % d == 0) return res;
-
-    res += '.';
-
-    unordered_map<int, int> map;
-
-    // simulate the division process
-    for (int64_t r = n % d; r; r %= d) {
-
-        // meet a known remainder
-        // so we reach the end of the repeating part
-        if (map.count(r) > 0) {
-            res.insert(map[r], 1, '(');
-            res += ')';
-            break;
+    string fractionToDecimal(int numerator, int denominator) {
+        
+        string res = "";
+        if(!numerator) return "0";
+        if(numerator>0 ^ denominator>0) {
+            res += '-';
         }
-
-        // the remainder is first seen
-        // remember the current position for it
-        map[r] = res.size();
-
-        r *= 10;
-
-        // append the quotient digit
-        res += to_string(r / d);
+        long num = labs(numerator), den = labs(denominator);
+        long q = num / den;
+        long r = num % den;
+        res += to_string(q);
+        if(r == 0) return res;
+        unordered_map<long, int> mp;
+        res += '.';
+        while(r) {
+            if(mp.find(r) != mp.end()) {
+                int pos = mp[r];
+                res.insert(pos,"(");
+                res+= ')';
+                break;
+            }
+            else {
+                mp[r] = res.length();
+                r *= 10;
+                q = r / den;
+                r = r % den;
+                res += to_string(q);
+            }
+        }
+        return res;
     }
-
-    return res;
-}
 };
