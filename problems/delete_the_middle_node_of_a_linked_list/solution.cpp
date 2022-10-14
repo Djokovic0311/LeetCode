@@ -11,54 +11,25 @@
 class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
-  if (head->next == NULL || head == NULL)
-
-    return NULL;
-
-  if (head->next->next == NULL){
-      head->next = NULL;
-      return head;
-  }
-
-
-  ListNode* fast = head;
-
-  ListNode* slow = head;
-
-  ListNode* pre = NULL;
-
-  /*
-
-  head  1    2    3    4    5
-
-  pre  slow  fast
-
-  */
-
-  //1个节点
-
-  if (head->next->next == NULL)
-
-    return head->next;
-
-  while (fast->next != NULL && fast->next->next != NULL)
-
-  {
-
-    pre = slow;
-
-    fast = fast->next->next;
-
-    slow = slow->next;
-
-  }
-
-  //此时fast已到终点，slow为中间节点，pre为中间节点前一个节点
-  if(fast->next != NULL){
-      pre = slow;
-      slow = slow->next;
-  }
-  pre->next = slow->next;
-  return head;
+        ListNode* fast = head, *slow = head;
+       if (head == NULL) {
+          return NULL;
+       }
+       if (head->next == NULL) {
+          delete head;
+          return NULL;
+       }        
+        while(fast!=NULL && fast->next!= NULL) {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        
+        ListNode* record = head;
+        while(record->next!=slow && record->next != NULL) {
+            record = record->next;
+        }
+        record->next = slow->next;
+        // delete(slow);
+        return head;
     }
 };
