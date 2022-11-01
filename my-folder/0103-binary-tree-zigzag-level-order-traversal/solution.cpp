@@ -11,38 +11,36 @@
  */
 class Solution {
 public:
-vector<vector<int> > zigzagLevelOrder(TreeNode* root) {
-    if (root == NULL) {
-        return vector<vector<int> > ();
-    }
-    vector<vector<int> > result;
-
-    queue<TreeNode*> nodesQueue;
-    nodesQueue.push(root);
-    bool leftToRight = true;
-
-    while ( !nodesQueue.empty()) {
-        int size = nodesQueue.size();
-        vector<int> row(size);
-        for (int i = 0; i < size; i++) {
-            TreeNode* node = nodesQueue.front();
-            nodesQueue.pop();
-
-            // find position to fill node's value
-            int index = (leftToRight) ? i : (size - 1 - i);
-
-            row[index] = node->val;
-            if (node->left) {
-                nodesQueue.push(node->left);
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>>res;
+        if(!root)   return res;
+        vector<int>row;
+        queue<TreeNode*>q;
+        int x=0;
+        q.push(root);
+        while(!q.empty())
+        {
+            int size=q.size();
+            for(int i=0;i<size;i++)
+            {
+                TreeNode*root=q.front();
+                q.pop();
+                row.push_back(root->val);
+                if(root->left!=NULL)
+                    q.push(root->left);
+                if(root->right!=NULL)
+                    q.push(root->right);
             }
-            if (node->right) {
-                nodesQueue.push(node->right);
+            if(x%2==0)
+                res.push_back(row);
+            else
+            {
+                reverse(row.begin(),row.end());
+                res.push_back(row);
             }
+            row.clear();
+            x+=1;
         }
-        // after this level
-        leftToRight = !leftToRight;
-        result.push_back(row);
+        return res;
     }
-    return result;
-}
 };
