@@ -1,33 +1,36 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        std::vector<vector<int>> result;
-        if (nums.empty()) {
-            return result;
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        if(nums.size() < 3){    //Base case 1
+            return {};
         }
-        std::size_t n_size = nums.size();
-        std::sort(nums.begin(), nums.end());
-        for (int i = 0; i < n_size; ++i) {
-            if (nums[i] > 0) break;
+        if(nums[0] > 0){        //Base case 2
+            return {};
+        }
+        
+        vector<vector<int>> res;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] > 0)
+                break;
             if (i > 0 and nums[i] == nums[i-1]) continue;
-
-            int left = i+1, right = n_size - 1;
-            while (left < right) {
-                int sum = nums[i] + nums[left] + nums[right];
-                if (sum < 0) {
-                    ++left;
-                } else if (sum > 0) {
-                    --right;
-                } else {
-                    result.push_back({nums[i], nums[left], nums[right]});
-                    int last_left = nums[left], last_right = nums[right];
-                    // we have seen this number & combo before; skip
-                    while (left < right && nums[left] == last_left) ++left;
-                    while (left < right && nums[right] == last_right) --right;
+            int l = i+1, r = n-1;
+            while(l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                if(sum < 0) {
+                    l++;
+                }
+                else if(sum > 0)
+                    r--;
+                else {
+                    res.push_back({nums[i], nums[l], nums[r]});
+                    int last_left = nums[l], last_right = nums[r];
+                while (l < r && nums[l] == last_left) ++l;
+				while (l < r && nums[r] == last_right) --r;
                 }
             }
-
         }
-        return result;        
+        return res;
     }
 };
