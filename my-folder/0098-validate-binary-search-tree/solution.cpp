@@ -11,18 +11,22 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root) {
-        if(!root)
+    void inOrder(TreeNode* root) {
+        if (!root)
             return;
-        inorder(root->left);
+        inOrder(root->left);
         tree.push_back(root->val);
-        inorder(root->right);
+        inOrder(root->right);
     }
+   
     bool isValidBST(TreeNode* root) {
-        inorder(root);
-        for(int i = 1; i < tree.size();i++) {
-            if(tree[i] <= tree[i-1]) return false;
-        }
+        if (!root)
+            return true;
+        
+        inOrder(root);
+        for (int i=1; i<tree.size(); i++)
+            if (tree[i] <= tree[i-1])
+                return false;
         return true;
     }
 private:
