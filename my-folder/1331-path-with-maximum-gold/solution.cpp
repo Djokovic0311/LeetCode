@@ -1,16 +1,26 @@
 class Solution {
 public:
-    int dfs(vector<vector<int>>& g, int i, int j) {
-      if (i < 0 || j < 0 || i >= g.size() || j >= g[i].size() || g[i][j] <= 0)  return 0;
-      g[i][j] = -g[i][j];
-      auto res = max({ dfs(g, i + 1, j), dfs(g, i, j + 1), dfs(g, i - 1, j), dfs(g, i, j - 1) });
-      g[i][j] = -g[i][j];
-      return g[i][j] + res;
+    
+    int dfs(vector<vector<int>>& grid, int i, int j) {
+        if(i>=grid.size() || i<0 || j<0 || j>=grid[0].size() || grid[i][j]==0) return 0;
+        int tmp = grid[i][j];
+        int ans = 0;
+        grid[i][j] = 0;
+        ans = max(ans, dfs(grid, i+1, j));
+        ans = max(ans, dfs(grid, i, j+1));
+        ans = max(ans, dfs(grid, i-1, j));
+        ans = max(ans, dfs(grid, i, j-1));
+        grid[i][j] = tmp;
+        return ans+tmp;
     }
-    int getMaximumGold(vector<vector<int>>& grid, int res = 0) {
-      for (auto i = 0; i < grid.size(); ++i)
-        for (auto j = 0; j < grid[i].size(); ++j)
-          res = max(res, dfs(grid, i, j));
-      return res;
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int ans = 0;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                ans = max(ans, dfs(grid, i, j));
+            }
+        }
+        return ans;
     }
 };
