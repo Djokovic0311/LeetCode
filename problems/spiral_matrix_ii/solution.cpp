@@ -1,48 +1,32 @@
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int>> res(n,vector<int>(n));
-        int top = 0, bottom = n-1, left = 0, right = n-1;
-        int val = 1,direction=1;
-        while(left<=right && top<=bottom)
+        int r1 = 0, r2 = n-1;
+        int c1 = 0, c2 = n-1;
+        int val = 0;
+		
+        vector<vector<int>> v(n, vector<int> (n));
+        while(r1 <= r2 && c1 <= c2)
         {
-            if(direction == 1)    
-            {   
-                for(int i=left;i<=right;i++)
-                {
-                    res[top][i]=val++;
-                }
-                top++;
-                direction=2;
-            }
-            else if(direction == 2)
+            for(int i = c1; i <= c2; ++i)
+                v[r1][i] = ++val;
+				
+            for(int i = r1+1; i <= r2; ++i)
+                v[i][c2] = ++val;
+				
+            if(r1 < r2 && c1 < c2)
             {
-                for(int i = top;i<=bottom;i++)
-                {
-                    res[i][right]=val++;
-                }
-                right--;
-                direction = 3;
+                for(int i = c2-1; i>c1; --i)
+                    v[r2][i] = ++val;
+					
+					for(int i = r2; i>r1; --i) 
+                    v[i][c1] = ++val;
             }
-            else if(direction == 3)
-            {
-                for(int i = right;i>=left;i--)
-                {
-                    res[bottom][i]=val++;
-                }
-                bottom--;
-                direction=4;
-            }
-            else if(direction == 4)
-            {
-                for(int i=bottom;i>=top;i--)
-                {
-                    res[i][left]=val++;
-                }
-                left++;
-                direction = 1;
-            }
+            ++r1;
+            --r2;
+            ++c1;
+            --c2;
         }
-        return res;
+        return v;
     }
 };
