@@ -1,8 +1,7 @@
 class Solution {
 public:
     void explore(vector<vector<char>>& grid, int r, int c, int R, int C){
-        if(r < 0 || r >= R || c < 0 || c >= C) return;
-        if(grid[r][c] == '0') return;
+        if(r < 0 || r >= R || c < 0 || c >= C || grid[r][c] == '0') return;
         if(grid[r][c] == '1'){
             grid[r][c] = 'm';
             explore(grid, r+1, c, R, C);
