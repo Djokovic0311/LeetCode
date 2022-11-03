@@ -1,24 +1,42 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        vector<int> result;
-        int rowBegin, colBegin, rowEnd, colEnd;
-        rowBegin = colBegin = 0, rowEnd = matrix.size() - 1, colEnd = matrix[0].size() - 1;
-        while (rowBegin <= rowEnd && colBegin <= colEnd) {
-            for (int j = colBegin; j <= colEnd; j++)  // Traverse Right
-                result.push_back(matrix[rowBegin][j]);
+        int n=matrix.size();
+        int m=matrix[0].size();
+        int left=0,right=m-1,bottom=n-1,top=0;
+        int direction=1;
+        vector<int> v;
+        while(left<=right && top<=bottom)
+        {
+            if(direction==1)
+            {
+                for(int i=left;i<=right;i++) v.push_back(matrix[top][i]);
+                direction=2;
+                top++;
+            }
             
-            for (int i = ++rowBegin; i <= rowEnd; i++) // Traverse Down
-                result.push_back(matrix[i][colEnd]);
+            else if(direction==2)
+            {
+                for(int i=top;i<=bottom;i++) v.push_back(matrix[i][right]);
+                direction=3;
+                right--;
+            }
             
-            for (int j = --colEnd; rowBegin <= rowEnd && j >= colBegin; j--) // Traverse Left
-                result.push_back(matrix[rowEnd][j]);
+            else if(direction==3)
+            {
+                for(int i=right;i>=left;i--) v.push_back(matrix[bottom][i]);
+                direction=4;
+                bottom--;
+            }
             
-            for (int i = --rowEnd; colBegin <= colEnd && i >= rowBegin; i--) // Traver Up
-                result.push_back(matrix[i][colBegin]);
-            
-            colBegin++;
+            else if(direction==4)
+            {
+                for(int i=bottom;i>=top;i--) v.push_back(matrix[i][left]);
+                direction=1;
+                left++;
+            }
         }
-        return result;        
+        return v;
+        
     }
 };
