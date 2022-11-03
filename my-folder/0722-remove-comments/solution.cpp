@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<string> removeComments(vector<string>& source) {
-        vector<string> ans;
+                vector<string> ans;
         string s;
         bool comment = false;
         for(int i = 0; i < source.size(); i++) {
@@ -14,6 +14,6 @@ public:
             
             if(!comment && s.size()) ans.push_back(s), s.clear();
         }
-        return ans;        
+        return ans;
     }
 };
