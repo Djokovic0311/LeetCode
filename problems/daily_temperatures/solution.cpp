@@ -1,37 +1,22 @@
 class Solution {
 public:
-    vector<int> dailyTemperatures(vector<int>& T) {
-        if (T.empty())
-        {
-            return vector<int>();
-        }
-        stack<pair<int, int>> s;
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> res(n,0);
+        stack<int> stk;
+        for(int i = n-1; i>=0; --i){
 
-        s.push(make_pair(T.back(), 0));
-        
-        vector<int> ans(T.size(), 0);
-        
-        for (int i = T.size() - 2; i >= 0; i--)
-        {
-            int counter = 1;
+            while(!stk.empty() && temperatures[stk.top()] <= temperatures[i])
+                stk.pop();
+				
+            if(!stk.empty())
+                res[i] = stk.top()-i; // distance between next greater and current
             
-            while (!s.empty() && T[i] >= s.top().first)
-            {
-                counter += s.top().second;
-                s.pop();
-            }
-            
-            if (s.empty())
-            {
-                s.push(make_pair(T[i], 0));
-            }
-            else
-            {
-                s.push(make_pair(T[i], counter));
-                ans[i] = counter;
-            }
+			// push the index of current temperature in the stack,
+			// same as pushing current temperature in stack
+            stk.push(i);
         }
         
-        return ans;
+        return res;        
     }
 };
