@@ -1,39 +1,33 @@
 class Solution {
 public:
-int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<pair<int,int>> adj[n]; 
-        int m = flights.size();
-        for(int i=0;i<m;i++){
-            int p = flights[i][0];
-            int q = flights[i][1];
-            adj[p].push_back({q,flights[i][2]});
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int, int>>> graph(n);
+        for(auto e : flights) {
+            graph[e[0]].push_back({e[1], e[2]});
         }
-        queue<pair<int,int>>q; // for level order traversal we use queue
-        vector<bool> vis(n,0);
-        q.push({0,src});
-        vector<int>dist(n,INT_MAX);
-        dist[src]=0;
-        k+=1; // add +1 because it is starting from src
-        while(!q.empty()){
-            int size=q.size();
-            k--;
-            if(k<0) // break statement
-                break;
-            for(int i=0;i<size;i++){
-                auto p = q.front();
-                int node = p.second;
-                int wt = p.first;
+        int ans=INT_MAX;
+        vector<int> dist(n, INT_MAX);
+        queue<pair<int, int>> q;
+        q.push({src, 0});
+        int stops=0;
+        while(stops<=k && !q.empty()) {
+            int sz=q.size();
+            while(sz--) {
+                int cnode=q.front().first;
+                int cdist=q.front().second;
                 q.pop();
-                for(auto x:adj[node]){
-                    if(x.second+wt<dist[x.first])
-                    {
-                        dist[x.first]=x.second+wt;
-                        q.push({dist[x.first],x.first}); // if we use priority queue then this solution
-                    }            //may go up in the queue that doesn't gives us level order traversal
+                if(cdist>dist[cnode]) continue;
+                dist[cnode]=cdist;
+                for(auto e : graph[cnode]) {
+                    if(e.second+cdist>ans) continue;
+                    if(e.first==dst) ans=min(ans, e.second+cdist);
+                    q.push({e.first, e.second+cdist});
                 }
-                
             }
+            stops++;
         }
-        return dist[dst]==INT_MAX?-1:dist[dst];
+        if(ans==INT_MAX)
+            return -1;
+        return ans;
     }
 };
