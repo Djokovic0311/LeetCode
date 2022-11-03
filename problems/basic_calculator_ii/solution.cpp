@@ -1,46 +1,41 @@
 class Solution {
 public:
     int calculate(string s) {
-        // support variables
-        int n = 0, i = 0, len = s.size();
-        bool minus = false, multi = false;
-        vector<int> tmp;
-        // moving len right after the last valid character
-        while (s[len - 1] == ' ') len--;
-        // main parsing loop
-        while (i < len) {
-            // ignoring spaces
-            while (i < len && s[i] == ' ') i++;
-            // parsing numbers
-            while (i < len && s[i] >= '0' && s[i] <= '9') {
-                n = n * 10 + (s[i] - '0');
-                i++;
-            }
-            // updating tmp and resetting n
-            tmp.push_back(minus ? -n : n);
-            n = 0;
-            // ignoring spaces - again
-            while (i < len && s[i] == ' ') i++;
-            // handling multiplications/divisions/end of parsing
-            while (i < len && (s[i] == '*' || s[i] == '/')) {
-                multi = s[i] == '*';
-                i++;
-                // ignoring spaces - again and again
-                while (i < len && s[i] == ' ') i++;
-                while (i < len && s[i] >= '0' && s[i] <= '9') {
-                    n = n * 10 + (s[i] - '0');
-                    i++;
+        s += '+';
+        stack<int> stk; 
+        
+        long long int ans = 0, curr = 0;
+        char sign = '+'; //to store the previously encountered sign
+        
+        for(int i=0; i<s.size(); i++){
+            if(isdigit(s[i])) curr = curr*10 + (s[i]-'0'); //keep forming the number, until you encounter an operator
+            
+            else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
+                
+                if(sign == '+') stk.push(curr); //'Cause it has to added to the ans
+            
+                else if(sign == '-') stk.push(curr*(-1)); //'Cause it has to be subtracted from ans
+                
+                else if(sign == '*'){
+                    int num = stk.top(); stk.pop();  //Pop the top of the stack
+                    stk.push(num*curr); //Multiply it with the current value & push the result into stack
                 }
-                // updating tmp and resetting n
-                tmp.back() = multi ? tmp.back() * n : tmp.back() / n;
-                n = 0;
-                // ignoring spaces - again and again and again
-                while (i < len && s[i] == ' ') i++;
+                
+                else if(sign == '/'){
+                    int num = stk.top();stk.pop(); 
+                    stk.push(num/curr);  //Divide it with curr value & push it into the stack
+                }
+                
+                curr = 0; 
+                sign = s[i]; 
             }
-            // preparing for the next loop
-            minus = s[i] == '-';
-            i++;
+            
         }
-        return accumulate(begin(tmp), end(tmp), 0);
+        
+        while(stk.size()){
+            ans += stk.top(); stk.pop();
+        }
+            
+        return ans;        
     }
 };
