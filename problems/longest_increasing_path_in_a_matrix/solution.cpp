@@ -12,12 +12,10 @@ public:
         return dp[i][j] = max({l, r, u, d}) + 1;
     }
     int longestIncreasingPath(vector<vector<int>>& matrix) {
-        int mx = 0;
-        for(int i = 0; i < matrix.size(); i++) {
-            for(int j = 0; j < matrix[0].size(); j++) {
-                mx = max(mx, dfs(matrix,i,j,-1));
-            }
-        }
-        return mx;
+        int maxVal = 0;
+        for (int i = 0; i < matrix.size(); i++)
+            for (int j = 0; j < matrix[i].size(); j++)
+                maxVal = max(maxVal, dfs(matrix, i, j, -1));
+        return maxVal;
     }
 };
