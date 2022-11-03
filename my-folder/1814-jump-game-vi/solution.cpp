@@ -1,18 +1,12 @@
 class Solution {
 public:
     int maxResult(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> dp(n, INT_MIN);
-        priority_queue<pair<int,int>> pq;
-        int res = INT_MIN;
-        for(int i=n-1 ; i>=0 ; i--) {
-            while(pq.size() && pq.top().second >i+k)
-                pq.pop();
-            dp[i] = nums[i];
-            dp[i] += (pq.size() ? pq.top().first : 0);
-            pq.push(make_pair(dp[i],i));
-
-        }
-        return dp[0];
+	vector<int> dp(size(nums), INT_MIN);
+    multiset<int> s ({ dp[0] = nums[0] });         // set dp[0] = nums[0] and insert it into set
+	for(int i = 1; i < size(nums); i++) {
+        if(i > k) s.erase(s.find(dp[i - k - 1]));  // erase elements from which we cant jump to current index
+        s.insert(dp[i] = *rbegin(s) + nums[i]);    // choose element with max score and jump from that to the current index
+    }
+	return dp.back();        
     }
 };
