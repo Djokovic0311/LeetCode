@@ -11,25 +11,35 @@
  */
 class Solution {
 public:
-    int xdepth = 0, ydepth = 0, xparent = 0, yparent = 0;
-    void depth(TreeNode* root, int x, int y, int dep, int par_val) {
-        if(root == NULL) return;
-        if(root->val == x) {
-            xdepth = dep;
-            xparent = par_val;
-        }
-        if(root->val == y) {
-            ydepth = dep;
-            yparent = par_val;
-        }
-        depth(root->left, x, y, dep+1, root->val);
-        depth(root->right,x, y, dep+1, root->val);
-    }
     bool isCousins(TreeNode* root, int x, int y) {
-    if(root->val==x || root->val==y) return false;
-    depth(root, x, y, 0, 0);
-    
-    if(xdepth==ydepth && xparent!=yparent) return true;
-    return false;
+        queue<TreeNode*>q;
+        q.push(root);
+
+        while(!q.empty()){
+            int n=q.size();
+             bool f1=false,f2=false;
+            for(int i=0;i<n;i++){
+                TreeNode*tmp=q.front();
+                q.pop();
+                //if values found
+                if(tmp->val==x) f1=true;
+                if(tmp->val==y) f2=true;
+                
+                //checking if parent is same
+                if(tmp->left && tmp->right){
+                if((tmp->left->val==x && tmp->right->val==y)|| (tmp->left->val==y && tmp->right->val==x))
+                    return false;
+                }
+                if(tmp->left)
+                    q.push(tmp->left);
+                if(tmp->right)
+                    q.push(tmp->right);
+            }
+          
+            if(f1&&f2)
+                return true;
+        }
+        
+        return false;
     }
 };
