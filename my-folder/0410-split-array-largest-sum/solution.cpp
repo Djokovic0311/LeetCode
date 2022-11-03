@@ -1,33 +1,33 @@
 class Solution {
 public:
     int splitArray(vector<int>& nums, int m) {
-        int n = nums.size();
+         long long int runningsum, n=nums.size();
+         vector<long long int> sums(n,0);
+         runningsum=sums[n-1]=nums[n-1];
+         for(int i=n-2;i>=0;i--){
+             runningsum+=nums[i];
+             sums[i]=runningsum;
+             // cout << sums[i] << " ";
+         }
+         if(m==1) return sums[0];
+         vector<vector<long long int>> dp(n,vector<long long int>(m+1,2147483648));
+         dp[n-1][1]=nums[n-1];    //initialisation
+         for(int i=n-2;i>0;i--){
+             int j=1;             //start calculating for all m in possible range
+             while(j<m&&j<=n-i){
+                 if(j==1) dp[i][1]=sums[i]; //no partition
+                 else{
+                     for(int k=i+1;k<n;k++){ // deciding on numb of elems to be include in the set with starting elem
+                         dp[i][j]=min(dp[i][j],(max(sums[i]-sums[k],dp[k][j-1]))); 
+                     }
+                 }
+                 j++;
+             }
+         }
+         for(int k=1;k<n;k++){
+             dp[0][m]=min(max(sums[0]-sums[k],dp[k][m-1]),dp[0][m]);
+         }
+         return dp[0][m];
         
-        vector<unsigned int> prefix_sum(n, 0);
-        vector<vector<unsigned int> > dp(n + 1, vector<unsigned int>(m + 1, INT_MAX));
-        prefix_sum[0] = nums[0];
-        // Step 1:
-        for(int i = 1; i < n; i++){
-            prefix_sum[i] = prefix_sum[i - 1] + nums[i];
-        }
-        
-        // Step 2, 3:
-        for(int i = 0; i < n; i++){
-            dp[i][1] = prefix_sum[i];
-        }
-        
-        dp[0][0] = 0;
-        // Step 4
-        for(int i = 0; i < n; i++){
-            // check all the possible splitting mechanism
-            for(int j = 2; j <= m; j++){
-                // from 0 to i, 
-                for(int k = 0; k < i; k++){
-                    dp[i][j] = min(dp[i][j], max(dp[k][j - 1], prefix_sum[i] - prefix_sum[k]));
-                }
-            }
-        }
-        
-        return dp[n - 1][m];
     }
 };
