@@ -1,44 +1,72 @@
 class LRUCache {
 public:
-    unordered_map<int, pair<list<int>::iterator, int>> ht;
-    list<int> dll;
+
+    class node{
+      public:
+        int key;
+        int val;
+        node* prev;
+        node* next;
+        node(int _key,int _val){
+            key=_key;
+            val=_val;
+        }
+    };
+    
+    node* head=new node(-1,-1);
+    node* tail=new node(-1,-1);
+    
+    unordered_map<int,node*> mp;
     int cap;
+
     LRUCache(int capacity) {
         cap=capacity;
+        head->next=tail;
+        tail->prev=head;
     }
     
-    void moveToFirst(int key){
-        dll.erase(ht[key].first);
-        dll.push_front(key);
-        ht[key].first=dll.begin();
+   void addNode(node* temp){
+        temp->next=head->next;
+        temp->prev=head;
+        head->next=temp;
+        temp->next->prev=temp;
     }
     
+    void deleteNode(node* temp){
+        temp->prev->next=temp->next;
+        temp->next->prev=temp->prev;
+    }
+
     int get(int key) {
-        if(ht.find(key)==ht.end()) return -1;
-        
-        moveToFirst(key);
-        return ht[key].second;
+         if(mp.find(key)!=mp.end()){
+            node* resultNode=mp[key];
+            int result=resultNode->val;
+            mp.erase(key);
+            deleteNode(resultNode);
+            addNode(resultNode);
+            mp[key]=resultNode;
+            return result;
+        }
+        return -1;
     }
     
     void put(int key, int value) {
-        if(ht.find(key)!=ht.end()){
-            ht[key].second=value;
-            moveToFirst(key);
+        if(mp.find(key)!=mp.end()){
+            node* temp=mp[key];
+            mp.erase(key);
+            deleteNode(temp);
         }
-        else{
-            dll.push_front(key);
-            ht[key]={dll.begin(), value};
-            cap--;
-        }
-        
-        if(cap<0){
-            ht.erase(dll.back());
-            dll.pop_back();
-            cap++;
+        else if(mp.size()==cap){
+            mp.erase(tail->prev->key);
+            deleteNode(tail->prev);
         }
         
+        node* add=new node(key,value);
+        addNode(add);
+        mp[key]=add;
     }
 };
+
 
 /**
  * Your LRUCache object will be instantiated and called as such:
