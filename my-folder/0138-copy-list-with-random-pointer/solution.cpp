@@ -30,6 +30,6 @@ public:
             m[ptr]->random = m[ptr->random];
             ptr = ptr->next;
         }
-        return m[head];        
+        return m[head];     
     }
 };
