@@ -1,31 +1,27 @@
 class Solution {
 public:
-    void explore(vector<vector<char>>& grid, int r, int c, int R, int C){
-        if(r < 0 || r >= R || c < 0 || c >= C || grid[r][c] == '0') return;
-        if(grid[r][c] == '1'){
-            grid[r][c] = 'm';
-            explore(grid, r+1, c, R, C);
-            explore(grid, r, c+1, R, C);
-            explore(grid, r-1, c, R, C);
-            explore(grid, r, c-1, R, C);
+    void dfs(vector<vector<char>>& grid, int i, int j) {
+        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == '0')
+            return;
+        if(grid[i][j] == '1') {
+            grid[i][j] = 'm';
+        dfs(grid, i+1,  j);
+        dfs(grid, i-1, j);
+        dfs(grid,i, j+1);
+        dfs(grid,i,j-1);            
         }
-        return;
-    } 
-
+        
+    }
     int numIslands(vector<vector<char>>& grid) {
-        int count = 0;
-        int R = grid.size();
-        int C = grid[0].size();
+        int m = grid.size(), n = grid[0].size();
+        int res = 0;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == '1')
+                    dfs(grid,i,j), res++;
 
-        for(int i=0;i<R;i++){
-            for(int j=0;j<C;j++){
-                if(grid[i][j] == 'm') continue;
-                if(grid[i][j] == '1'){
-                    count++;
-                    explore(grid, i,j, R, C);
-                }
             }
         }
-        return count;
+        return res;
     }
 };
