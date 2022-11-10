@@ -15,39 +15,34 @@
  *     const vector<NestedInteger> &getList() const;
  * };
  */
-
 class NestedIterator {
+    vector<int> v;
+    int pos=0;
 public:
     NestedIterator(vector<NestedInteger> &nestedList) {
-        begins.push(nestedList.begin());
-        ends.push(nestedList.end());
+        flatten(nestedList);
     }
-
-    int next() {
-        hasNext();
-        return (begins.top()++)->getInteger();
-    }
-
-    bool hasNext() {
-        while (begins.size()) {
-            if (begins.top() == ends.top()) {
-                begins.pop();
-                ends.pop();
-            } else {
-                auto x = begins.top();
-                if (x->isInteger())
-                    return true;
-                begins.top()++;
-                begins.push(x->getList().begin());
-                ends.push(x->getList().end());
-            }
+    
+    void flatten(vector<NestedInteger> &nestedList)
+    {
+        for(auto x : nestedList)
+        {
+            if(x.isInteger())
+                v.push_back(x.getInteger());
+            else
+                flatten(x.getList());
         }
-        return false;
     }
-
-private:
-    stack<vector<NestedInteger>::iterator> begins, ends;
+    
+    int next() {
+        return v[pos++];
+    }
+    
+    bool hasNext() {
+        return pos < v.size();
+    }
 };
+
 /**
  * Your NestedIterator object will be instantiated and called as such:
  * NestedIterator i(nestedList);
