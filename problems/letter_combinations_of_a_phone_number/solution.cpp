@@ -8,7 +8,7 @@ public:
             for(auto& currentCombination : ans)
                 for(auto newChar : mappings[digit - '2'])
                     extendCombination.push_back(currentCombination + newChar);                            
-            ans = move(extendCombination); // same as ans = extendCombination, just avoids copying each value. You Can also use swap(ans,extendCombination)
+            ans = extendCombination; // same as ans = extendCombination, just avoids copying each value. You Can also use swap(ans,extendCombination)
         }
         return ans;        
     }
