@@ -1,30 +1,29 @@
+#define p pair<char, int>
+
 class Solution {
+struct numcompare {
+    bool operator() (const p &a, const p &b) {
+        return a.second < b.second;
+    }
+};
 public:
-    string reorganizeString(string s) {
-        vector<int> cnt(26);
-        int mostFreq = 0, i = 0;
-
-        for(char c : s)
-            if(++cnt[c - 'a'] > cnt[mostFreq])
-                mostFreq = (c - 'a');
-
-        if(2 * cnt[mostFreq] - 1 > s.size()) return "";
-
-        while(cnt[mostFreq]) {
-            s[i] = ('a' + mostFreq);
-            i += 2;
-            cnt[mostFreq]--;
+    string reorganizeString(string S) {
+        unordered_map<char, int> map;
+        priority_queue<p, vector<p>, numcompare> pq;
+        for(char c : S) map[c]++;
+        for(auto i : map) pq.push(i);
+        string res = "";
+        p prev{'#', -1};
+        
+        while(!pq.empty()) {
+            p curr = pq.top();
+            pq.pop();
+            res += curr.first;
+            if(prev.second > 0) pq.push(prev);
+            map[curr.first]--;
+            prev = {curr.first, map[curr.first]};
         }
-
-        for(int j = 0; j < 26; j++) {
-            while(cnt[j]) {
-                if(i >= s.size()) i = 1;
-                s[i] = ('a' + j);
-                cnt[j]--;
-                i += 2;
-            }
-        }
-
-        return s;        
+        
+        return res.size() == S.size() ? res : "";
     }
 };
