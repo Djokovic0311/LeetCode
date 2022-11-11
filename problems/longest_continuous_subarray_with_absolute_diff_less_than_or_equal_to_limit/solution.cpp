@@ -10,6 +10,6 @@ public:
                 m.erase(m.find(nums[j++]));
             ans=max(ans,i-j+1);
         }
-        return ans;        
+        return ans;         
     }
 };
