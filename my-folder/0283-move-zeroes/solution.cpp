@@ -11,7 +11,7 @@ public:
             }
         }
         for(int i = j; i < n; i++) {
-            nums[i] = 0;
-        }
+            nums[i] = 0;        
+    }
     }
 };
