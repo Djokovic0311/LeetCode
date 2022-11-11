@@ -1,19 +1,21 @@
 class Solution {
 public:
     vector<vector<int>> res;
-    void dfs(vector<int>& num, int i, int n) {
-        if(i == n)
-        {res.push_back(num);
-         return;}
-        for(int j = i; j < n; j++) {
-            swap(num[i], num[j]);
-            dfs(num, i+1, n);
-            swap(num[j], num[i]);
+    void dfs(vector<int>& nums, int i) {
+        if(i == nums.size()) {
+            res.push_back(nums);
+            return;
+        }
+            
+        for(int j = i;  j < nums.size(); j++) {
+            swap(nums[i],nums[j]);
+            dfs(nums, i+1);
+            swap(nums[i],nums[j]);
         }
         
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        dfs(nums,0,nums.size());
+        dfs(nums,0);
         return res;
     }
 };
