@@ -10,6 +10,6 @@ public:
             res+=s;
         while(res[0]=='0' && res.length()>1)
             res.erase(0,1);
-        return  res;        
+        return  res;          
     }
 };
