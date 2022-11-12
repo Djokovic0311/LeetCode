@@ -7,6 +7,7 @@ public:
         
         vector<int> adj[numCourses];         // adj list        
         int edges = prerequisites.size();
+
         for(int i = 0;i<edges;i++){
             int u = prerequisites[i][0];
             int v = prerequisites[i][1];
@@ -21,14 +22,15 @@ public:
             if(indegree[i] == 0)
                 q.push(i);
         }
-        while(!q.empty()){
-            count++;
-            int node = q.front();
+
+        while(!q.empty()) {
+            auto node = q.front();
             q.pop();
-            for(int i: adj[node]){
-                indegree[i]--;
-                if(indegree[i] == 0)
-                    q.push(i);
+            count++;
+            for(int i = 0; i < adj[node].size(); i++) {
+                indegree[adj[node][i]]--;
+                if(indegree[adj[node][i]] == 0)
+                    q.push(adj[node][i]);
             }
         }
         return count == numCourses;        
