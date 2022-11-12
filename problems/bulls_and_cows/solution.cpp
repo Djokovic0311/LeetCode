@@ -1,25 +1,22 @@
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        int mp1[10] = {0};
-        int mp2[10] = {0};
-        int bull=0,cow=0;
-        for(int i=0;i<secret.length();i++) {
-            if(secret[i]==guess[i]) {
-                bull++;
-            } else {
-                mp1[secret[i]-'0']++;
-                mp2[guess[i]-'0']++;
+        string res;
+        int n = secret.length();
+        int bulls = 0, cows = 0;
+        vector<int> s(10,0), g(10,0);
+        for(int i = 0; i < n; i++) {
+            if(secret[i] == guess[i])
+                bulls++;
+            else {
+                s[secret[i]-'0']++;
+                g[guess[i]-'0']++;
             }
         }
-        
-        for(int i=0;i<10;i++) {
-            if(mp1[i]!=0 && mp2[i]!=0) {
-                cow += min(mp1[i], mp2[i]);
-                
-            }
+        for(int i = 0; i < 10; i++) {
+            cows += min(s[i],g[i]);
         }
-        
-        return to_string(bull) + "A" + to_string(cow) + "B";        
+        res = to_string(bulls) + "A" + to_string(cows) +"B";
+        return res;
     }
 };
