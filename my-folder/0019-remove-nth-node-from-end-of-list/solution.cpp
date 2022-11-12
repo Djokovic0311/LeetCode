@@ -18,14 +18,17 @@ public:
             len++;
         }
         len = len - n;
-        
-        ListNode* tem = new ListNode();
+
+
+        ListNode* tem = new ListNode(0);
         tem->next = head;
         ListNode* prev = tem;
-        
-        while(len--){
+
+        while(len--) {
             prev = prev->next;
+            // len--;
         }
+        cout << prev->val;
         prev->next = prev->next->next;
         return tem->next;
     }
