@@ -7,6 +7,6 @@ public:
             mi = min(mi, prices[i]);
             mx = max(mx, prices[i]-mi);
         }
-        return mx;
+        return mx;       
     }
 };
