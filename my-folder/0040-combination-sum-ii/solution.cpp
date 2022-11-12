@@ -1,32 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>> result;
-    
-    void comsum(vector<int> &curr, int target, int sum, vector<int> &candidates, int curInd, int n){
-        if(target == sum){
-            result.push_back(curr);
+    vector<vector<int>> res;
+    void dfs(vector<int>& candidates, int target, int idx, vector<int>& cur, int sum) {
+        if(sum == target) {
+            res.push_back(cur);
             return;
         }
-        else if(sum>target){
-            return;
-        }
-        
-        for(int i = curInd; i < n; i++){
-            if(i != curInd && candidates[i]==candidates[i-1])           
+        for(int i = idx; i < candidates.size(); i++) {
+            if(i != idx && candidates[i] == candidates[i-1])
                 continue;
-            sum += candidates[i];
-            curr.push_back(candidates[i]);
-            comsum(curr, target, sum, candidates, i+1, n);
-            sum -= candidates[i];
-            curr.pop_back();
+            if(sum + candidates[i] <= target) {
+                sum += candidates[i];
+                cur.push_back(candidates[i]);
+                dfs(candidates, target, i+1, cur, sum);
+                cur.pop_back();
+                sum -= candidates[i];
+            }
+            else return;
         }
-        
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-        vector<int> curr;
-        int n = candidates.size();
         sort(candidates.begin(), candidates.end());
-        comsum(curr, target, 0, candidates, 0, n);
-        return result;
+        int n = candidates.size();
+        vector<int> cur;
+        dfs(candidates, target, 0, cur, 0);
+        return res;
     }
 };
