@@ -1,7 +1,7 @@
 class Solution {
 public:
     int maximumPopulation(vector<vector<int>>& logs) {
-        int pop[2051] = {}, res = 0;
+         int pop[2051] = {}, res = 0;
         for (auto &l : logs) {
             ++pop[l[0]];
             --pop[l[1]];
