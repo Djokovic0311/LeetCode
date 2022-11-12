@@ -1,6 +1,7 @@
 class Solution {
 public:
     int longestArithSeqLength(vector<int>& nums) {
+        //dp[index][diff] equals to the length of arithmetic sequence at index with difference diff
         int res = 2, n = nums.size();
         vector<vector<int>> dp(n, vector<int>(2000, 0));
         for (int i = 0; i < n; ++i)
@@ -10,5 +11,6 @@ public:
                 res = max(res, dp[j][d]);
             }
         return res;
+       
     }
 };
