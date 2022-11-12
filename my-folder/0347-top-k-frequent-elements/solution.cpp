@@ -11,6 +11,6 @@ public:
             v.push_back(maxHeap.top().second);
             maxHeap.pop();
         }
-        return v;        
+        return v;               
     }
 };
