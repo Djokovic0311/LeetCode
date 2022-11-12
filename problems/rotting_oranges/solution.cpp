@@ -6,6 +6,7 @@ public:
         int n = grid[0].size();
         queue<pair<int, int>> q;
         int fresh = 0;
+        
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 if(grid[i][j] == 2)
@@ -38,6 +39,6 @@ public:
         }
         if(fresh > 0) return -1;
         if(ans == -1) return 0;
-        return ans;
+        return ans;        
     }
 };
