@@ -1,53 +1,31 @@
 class Solution {
-    public:
-        vector<string> removeInvalidParentheses(string s) 
-        {
-            vector<string> res;
-            unordered_set<string> visited;
-            queue<string> q;
-            q.push(s);
-            visited.insert(s);
-            while(!q.empty())
-            {
-                int size = q.size();
-                for(int i = 0; i < size; ++i)
-                {
-                    string str = q.front(); q.pop();
-                    char ch_remove = isValid(str);
-                    if(ch_remove == 1) res.push_back(str);
-
-                    if(res.size()) continue; // all our results are on this level - no need to populate queue
-
-                    for(int j = 0; j < str.length(); ++j)
-                    {
-                        if(str[j] == ch_remove)
-                        {
-                            string snew = str.substr(0, j) + str.substr(j+1);
-                            if(!visited.count(snew)) 
-                            {
-                                q.push(snew);
-                                visited.insert(snew);
-                            }
-                        }
-                    }
-                }
-                if(res.size()) break;
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        queue<string> q;
+        unordered_set<string> visited;
+        vector<string> res;
+        
+        for (q.push(s); !q.empty(); q.pop()) {
+            s = q.front();
+            if (isValid(s)) res.push_back(s);
+            
+            if (!res.empty()) continue;
+            for (int i = 0; i < s.size(); ++i) {
+                if (s[i] != '(' and s[i] != ')') continue;
+                auto ss(s); ss.erase(i, 1);
+                if (visited.insert(ss).second) q.push(ss);
             }
-            return res;
         }
-
-    protected:
-        // returns 1 if valid; char to be removed otherwise
-        char isValid(string& s)
-        {
-            int count = 0;
-            for(char c : s)
-            {
-                if(c == '(') ++count;
-                else if(c == ')') 
-                    if(count > 0) --count;
-                    else return ')';
-            }
-            return count == 0 ? 1 : '(';
+        return res;
+    }
+    
+    bool isValid(string s) { // if s is valid to pair parentheses
+        int counter = 0;
+        for (char c : s) {
+            if (c == '(') ++counter;
+            else if (c == ')') --counter;
+            if (counter < 0) return false;
         }
+        return counter == 0;
+    }
 };
