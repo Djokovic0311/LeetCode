@@ -11,9 +11,9 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        int c = 0;
-        ListNode newHead(0);
-        ListNode *t = &newHead;
+         int c = 0;
+        ListNode* newHead = new ListNode(0);
+        ListNode* t = newHead;
         while(c||l1||l2) {
             c += (l1? l1->val : 0) + (l2? l2->val : 0);
             t->next = new ListNode(c%10);
@@ -22,6 +22,6 @@ public:
             if(l1) l1 = l1->next;
             if(l2) l2 = l2->next;
         }
-        return newHead.next;
+        return newHead->next;       
     }
 };
