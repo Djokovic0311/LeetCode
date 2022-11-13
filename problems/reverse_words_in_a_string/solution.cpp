@@ -1,8 +1,8 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        stringstream ss;
-        ss << s;
+        stringstream ss(s);
+        // ss << s;
         string word;
         string res;
         stack<string> stk;
@@ -15,6 +15,6 @@ public:
             stk.pop();
         }
         res += stk.top();
-        return res;
+        return res;       
     }
 };
