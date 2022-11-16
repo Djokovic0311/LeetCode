@@ -14,6 +14,6 @@ public:
 		} else
 			previous = nums[i];
 	}
-	return true;
+	return true;        
     }
 };
