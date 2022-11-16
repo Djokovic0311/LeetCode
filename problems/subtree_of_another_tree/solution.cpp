@@ -36,7 +36,6 @@ public:
              return true;
          }
          else{
-             //if s and t are not same then pass left and right nodes, and check same for that nodes as well as its child nodes.
              return isSubtree(s->left,t) || isSubtree(s->right,t);
          }
    }
