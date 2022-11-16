@@ -1,5 +1,5 @@
 class Solution {
-    // Helper function which returns the number of hours required to consume the piles for given K
+public:
     int hoursRequired(const vector<int> &piles, int k)
     {
         int h = 0;
@@ -14,23 +14,21 @@ class Solution {
         }
         return h;
     }
-    
-public:
-    int minEatingSpeed(vector<int>& piles, int H) {
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int n = piles.size();
+        sort(piles.begin(), piles.end());
         long long sum = 0;
-        int mx = 0;
-        for(int i = 0; i < piles.size(); i++)
-        {
-            sum += piles[i];
-            mx = max(mx, piles[i]);
-        }
-        int l = sum / H, r = mx, ans;
-        while(l < r)
-        {
+        for(auto p : piles) sum += p;
+        int l, r;
+        if(sum % h == 0) l = sum/h;
+        else l = sum/h + 1;
+        r = piles[n-1];
+        // int res = INT_MAX;
+        while(l < r) {
             int mid = l + (r - l) / 2;
             int ans = hoursRequired(piles, mid);
 			// If hours required is greater than our limit, ignore mid
-            if(ans > H)
+            if(ans > h)
             {
                 l = mid + 1;
             }
@@ -39,6 +37,6 @@ public:
                 r = mid;
             }
         }
-        return r;
+        return l;
     }
 };
