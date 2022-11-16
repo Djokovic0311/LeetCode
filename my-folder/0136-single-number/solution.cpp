@@ -6,6 +6,6 @@ public:
         for(int i = 0; i < n; i++){
             result ^= nums[i];
         }
-        return result;
+        return result;        
     }
 };
