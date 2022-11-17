@@ -13,8 +13,8 @@ public:
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-                sort(candidates.begin(),candidates.end());
-        candidates.erase(unique(candidates.begin(),candidates.end()),candidates.end());
+        sort(candidates.begin(),candidates.end());
+
 vector<vector<int>> res;
         vector<int> r;
         helper(candidates,r, target,0,res);
