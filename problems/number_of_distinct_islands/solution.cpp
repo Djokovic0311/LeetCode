@@ -8,9 +8,10 @@ public:
         vector<vector<int>> dir{{0,1},{0,-1}, {1,0}, {-1,0}};
         vector<string> path{"r", "l", "d", "u"};
         int k = 0;
-        for(auto &d : dir) {
-            s += path[k];
-            dfs(grid, r + d[0], c + d[1], s);
+        for(int i = 0; i < 4; i++) {
+            s += path[i];
+            // cout << k
+            dfs(grid, r + dir[i][0], c + dir[i][1], s);
         }
         s += "e"; // end
     }
