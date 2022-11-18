@@ -1,8 +1,8 @@
 class Solution {
 public:
-    
     int dfs(vector<vector<int>>& grid, int i, int j) {
-        if(i>=grid.size() || i<0 || j<0 || j>=grid[0].size() || grid[i][j]==0) return 0;
+        if(i>=grid.size() || i<0 || j<0 || j>=grid[0].size() || grid[i][j]==0) 
+            return 0;
         int tmp = grid[i][j];
         int ans = 0;
         grid[i][j] = 0;
@@ -21,6 +21,6 @@ public:
                 ans = max(ans, dfs(grid, i, j));
             }
         }
-        return ans;
+        return ans;        
     }
 };
