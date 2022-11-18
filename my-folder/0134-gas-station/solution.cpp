@@ -1,8 +1,6 @@
-class Solution 
-{
+class Solution {
 public:
-    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) 
-    {
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         // first of all we need to check whether we've sfficient fuel or not. 
         int total_cost=0,total_fuel=0,n=cost.size();
         for(int i=0;i<n;i++)
@@ -31,6 +29,6 @@ public:
             // at any station we'll fill petrol and pay the cost to go to the next station . so current fuel would be the following.
             curr_fuel+=(gas[i]-cost[i]);
         }
-        return start;
+        return start;        
     }
 };
