@@ -26,16 +26,10 @@ public:
     }
 private:
     void cleanRoomRecursive(Robot &robot, unordered_set<string> &visited, const vector<vector<int>> &directions, int i, int j, int faceDirection) {
-        // mark the current cell as visited(make sure that each time you call this function, the cell has not been visited yet)
         visited.insert(to_string(i) + "," + to_string(j));
         // clean the current cell
         robot.clean();
         
-        // try out 4 differnt directions
-        // k = 0: keep moving towards the current direction that we're facing
-        // k = 1: make 1 right turn already, and try that new direction
-        // k = 2: make 2 right turns already, and try that new direction
-        // k = 3: make 3 right turns already, and try that new direction
         for (int k = 0; k < 4; ++k) {
             int nextFaceDirection = (faceDirection + k) % 4;
             int iNext = i + directions[nextFaceDirection][0];
