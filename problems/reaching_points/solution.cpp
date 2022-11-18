@@ -16,7 +16,7 @@ public:
             else 
                 ty %= tx;
         }
-         
+        cout << tx << ' '  << ty << endl;
         if(tx == sx) {
             if((ty - sy) % tx == 0)
                 return true;
@@ -25,6 +25,6 @@ public:
                 return true;
         }
         
-        return false;        
+        return false;         
     }
 };
