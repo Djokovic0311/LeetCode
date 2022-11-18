@@ -23,7 +23,6 @@ public:
             
             ans.push_back(tempAns);
         }
-        return ans;
-
+        return ans;        
     }
 };
