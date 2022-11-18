@@ -1,3 +1,4 @@
+# Write your MySQL query statement below
 with temp0 AS
 (SELECT  id,
             login_date,
