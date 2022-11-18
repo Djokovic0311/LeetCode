@@ -47,7 +47,8 @@ public:
             right[i]++;
             p.push_back(right[i]);
         }
-        
+        for(int t : p) cout << t << ' ';
+        cout << endl;
         return p;
     }
 };
