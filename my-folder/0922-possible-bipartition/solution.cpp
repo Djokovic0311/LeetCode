@@ -5,6 +5,7 @@ public:
         vector<vector<int>> graph(n, vector<int>());
         queue<int> q;
         vector<int> visited(n, 0);
+        
         for(i = 0; i < dislikes.size(); i++){
             u = dislikes[i][0] - 1;
             v = dislikes[i][1] - 1;
@@ -37,6 +38,6 @@ public:
                 }
             }
         }
-        return true;
+        return true;        
     }
 };
