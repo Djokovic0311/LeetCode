@@ -13,22 +13,25 @@ class Solution {
 public:
     int ans = 1;
     void dfs(TreeNode* root, int len) {
-        if(root == nullptr) return ;
-        if(root->left) {
-            if(root->val + 1 == root->left->val) {
+        if(!root) return;
+        if(root->left){
+            if(root->left->val == root->val + 1) {
                 ans = max(ans, len+1);
                 dfs(root->left, len+1);
             }
-            else dfs(root->left, 1);
+            else {
+                dfs(root->left, 1);
+            }
         }
         if(root->right) {
-            if(root->val+1 == root->right->val) {
-                ans = max(ans,len+1); 
+            if(root->right->val == root->val + 1) {
+                ans = max(ans, len+1);
                 dfs(root->right, len+1);
             }
-            else dfs(root->right,1);
-            }
-        // return ans;
+            else {
+                dfs(root->right, 1);
+            }            
+        }
     }
     int longestConsecutive(TreeNode* root) {
         dfs(root, 1);
