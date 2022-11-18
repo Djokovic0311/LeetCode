@@ -1,45 +1,49 @@
 class Solution {
 public:
-    string countOfAtoms(string formular) {
+    string countOfAtoms(string formula) {
         string ans = "";
         map<string, int> mp;
         stack<int> stk;
         int cnt = 0, mult = 1;
-        int n = formular.size();
-        
+        int n = formula.length();
+
         for(int i = n-1; i >= 0; i--) {
-            if(isalpha(formular[i]) && islower(formular[i])) {
+            char c = formula[i];
+            if(isalpha(c) && islower(c)) {
                 int len = 2;
                 i--;
-                while(i >= 0 && islower(formular[i])) {
+                while(isalpha(formula[i]) && islower(formula[i])) {
                     i--;
                     len++;
                 }
-                string atom = formular.substr(i, len);
-                mp[atom] += max(cnt, 1) * mult;
+                string name = formula.substr(i, len);
+                mp[name] += max(1, cnt) * mult;
                 cnt = 0;
-            } else if(isalpha(formular[i]) && isupper(formular[i])) {
-                string atom(1, formular[i]);
+            }
+            else if(isalpha(c) && isupper(c)) {
+                string atom(1, c);
                 mp[atom] += max(1, cnt) * mult; 
-                cnt = 0;
-            } else if(isdigit(formular[i])) {
-                cnt = formular[i] - '0';
+                cnt = 0;                
+            }
+            else if(isdigit(c)) {
+                cnt = c - '0';
                 int p = 10;
-                
-                while (i - 1 >= 0 and isdigit(formular[i - 1])) {
-                    cnt += p * (formular[--i] - '0');
+                while(i-1 >= 0 && isdigit(formula[i-1])) {
+                    cnt += p * (formula[--i] - '0');
                     p *= 10;
-                }                
-            } else if (formular[i] == ')') {
-                stk.push(mult);
-                mult *= max(cnt, 1);
-                cnt = 0;
-            } else {
+                }
+            }
+            else if(c == '(') {
                 mult = stk.top();
                 stk.pop();
             }
-        
+            else {
+                stk.push(mult);
+                mult *= max(cnt, 1);
+                cnt = 0;
+            }
         }
+
         for (auto [atom, count]: mp) {
             ans += atom;
             
