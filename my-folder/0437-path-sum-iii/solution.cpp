@@ -11,19 +11,19 @@
  */
 class Solution {
 public:
-    long ans = 0;
-    void dfs(TreeNode* root, long sum) {
+    int res = 0;
+    void dfs(TreeNode* root, long long sum) {
         if(!root) return;
-        if(root->val == sum) ans++;
+        if(root->val == sum) res++;
         dfs(root->left, sum-root->val);
         dfs(root->right, sum-root->val);
     }
     int pathSum(TreeNode* root, int targetSum) {
         if(root) {
-            dfs(root,targetSum);
-            pathSum(root->left, targetSum);
+            dfs(root, (long long)targetSum);
             pathSum(root->right, targetSum);
+            pathSum(root->left, targetSum);
         }
-        return ans;
+        return res;
     }
 };
