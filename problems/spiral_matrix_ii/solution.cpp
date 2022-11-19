@@ -14,19 +14,19 @@ public:
             for(int i = r1+1; i <= r2; ++i)
                 v[i][c2] = ++val;
 				
-            if(r1 < r2 && c1 < c2)
-            {
+            // if(r1 < r2 && c1 < c2)
+            // {
                 for(int i = c2-1; i>c1; --i)
                     v[r2][i] = ++val;
 					
-					for(int i = r2; i>r1; --i) 
+				for(int i = r2; i>r1; --i) 
                     v[i][c1] = ++val;
-            }
+            // }
             ++r1;
             --r2;
             ++c1;
             --c2;
         }
-        return v;
+        return v;       
     }
 };
