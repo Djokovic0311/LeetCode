@@ -17,7 +17,7 @@ public:
 
         while(!q.empty()){
             int n=q.size();
-             bool f1=false,f2=false;
+            bool f1=false,f2=false;
             for(int i=0;i<n;i++){
                 TreeNode*tmp=q.front();
                 q.pop();
@@ -40,6 +40,6 @@ public:
                 return true;
         }
         
-        return false;
+        return false;        
     }
 };
