@@ -10,6 +10,6 @@ public:
             }
             ++time;
         }
-        return {time, memory1, memory2};        
+        return {time, memory1, memory2}; 
     }
 };
