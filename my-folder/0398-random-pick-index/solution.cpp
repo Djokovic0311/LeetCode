@@ -1,17 +1,17 @@
 class Solution {
 public:
 vector<int> arr;
+unordered_map<int,vector<int>> mp;
 Solution(vector<int>& nums) {
-arr=nums;
+    arr=nums;
+    for(int i = 0; i < nums.size(); i++) {
+        mp[nums[i]].push_back(i);
+    }
 }
 
 int pick(int target) {
-    vector<int>ans;
-    for(int i=0;i<arr.size();i++){
-        if(arr[i] == target)
-            ans.push_back(i);
-    }
-    return ans[rand()%ans.size()];
+
+    return mp[target][rand()%mp[target].size()];
 }
 };
 /**
