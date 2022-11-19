@@ -7,35 +7,41 @@ public:
         return ans;
     }
     int slidingPuzzle(vector<vector<int>>& board) {
-        int n = board.size();
-        int m = board[0].size();
-        string dest = "123450";
+        int m = board.size(), n = board[0].size();
+        string des = "123450";
         string src = "";
-        for (int i = 0; i < n * m; ++i)
-            src += to_string(board[i / m][i % m]);
-        cout << src;
-        queue<pair<string, int>> que;
-        que.push(make_pair(src, 0));
-        unordered_set<string> map;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++)
+                src += to_string(board[i][j]);
+        }
+
+        queue<pair<string,int>> q;
         vector<vector<int>> dirs {{1, 3}, {0, 2, 4}, {1, 5}, {0, 4}, {1, 3, 5}, {2, 4}};
-        while (!que.empty()) {
-            int size = que.size();
-            while (size-- > 0) {
-                pair<string, int> temp = que.front(); que.pop();
-                string str = temp.first;
-                int level = temp.second;
-                if (str.compare(dest) == 0)
+        q.push(make_pair(src,0));
+
+        unordered_set<string> st;
+
+        while(!q.empty()) {
+            int sz = q.size();
+            for(int i = 0; i < sz; i++) {
+                auto [str, level] = q.front();
+                q.pop();
+                if(str == des) {
                     return level;
-                int idx = -1;
+                }
+                int idx;
                 for (int i = 0; i < str.size(); ++i)
                     if (str[i] == '0')
                         idx = i;
-                for (int dir: dirs[idx]) {
-                    string temp1 = swap(str, idx, dir);
-                    if (map.find(temp1) != map.end())
+                for(auto d : dirs[idx]) {
+                    string nstring = swap(str,idx, d);
+                    if(st.find(nstring) != st.end()) {
                         continue;
-                    que.push(make_pair(temp1, level + 1));
-                    map.insert(temp1);
+                    }
+                    else {
+                        q.push(make_pair(nstring, level + 1));
+                        st.insert(nstring);
+                    }
                 }
             }
         }
