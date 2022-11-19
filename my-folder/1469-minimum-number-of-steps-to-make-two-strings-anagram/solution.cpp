@@ -13,6 +13,6 @@ public:
         for(auto it = mp.begin(); it != mp.end(); it++)
             if(it->second > 0)
             res += it->second;
-        return res;
+        return res;        
     }
 };
