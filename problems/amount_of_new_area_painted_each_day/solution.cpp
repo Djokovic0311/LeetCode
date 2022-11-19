@@ -1,30 +1,40 @@
 class Solution {
 public:
-    vector<int> amountPainted(vector<vector<int>>& paint) {
-        auto min_start = INT_MAX, max_end = INT_MIN;
-        for (const auto& row : paint) {
-            min_start = min(min_start, row[0]);
-            max_end = max(max_end, row[1]);
-        }
-        
-        set<int> painting;
-        for (int i = min_start; i < max_end; ++i)
-            painting.insert(i);
-        
-        vector<int> res;
-        res.reserve(paint.size());
-        // for(auto n : res) cout << n << " ";
-        for (const auto& row : paint) {
-            int count = 0;
-            auto it = painting.lower_bound(row[0]);
-            while (it != painting.end() && *it < row[1]) {
-                it = painting.erase(it);
-                ++count;
-            }
+    
+    int InsertInterval(map<int, int> &mp, int start, int end) 
+    {
+        auto up_it = mp.upper_bound(end);
+        auto lo_it = std::prev(mp.lower_bound(start));
+        // cout << up_it->first <<' ' <<  up_it->second << endl;
+        // cout << lo_it->first <<' ' <<  lo_it->second << endl;        
+        lo_it = lo_it->second < start ? std::next(lo_it) : lo_it;              // First overlapping interval
+        // cout << up_it->first <<' ' <<  up_it->second << endl;
+        // cout << lo_it->first <<' ' <<  lo_it->second << endl;
+        int paint = end - start;        
+        for(auto it = lo_it; it != up_it; ++it) {
+            paint -= std::min(end, it->second) - std::max(start, it->first);   // Substract overlapping interval from the paint
             
-            res.push_back(count);
+            start = std::min(start, it->first);                                // Update new interval to be stored in the map
+            end   = std::max(end  , it->second);
+        }
+        // cout << start << ' ' << end << endl;
+        mp.erase(lo_it, up_it);                                               // Remove overlapping intervals
+        
+        mp[start] = end;                                                      // Insert new interval
+        return paint;
+    }
+    
+    
+    vector<int> amountPainted(vector<vector<int>>& paint) {
+        map<int, int> mp;
+        mp[INT_MIN] = INT_MIN;           // Insert dummy Interval
+        // mp[INT_MAX] = INT_MAX;
+        
+        vector<int> ans;
+        for(auto p : paint) {
+            ans.push_back(InsertInterval(mp, p[0], p[1]));
         }
         
-        return res;
+        return ans;
     }
 };
