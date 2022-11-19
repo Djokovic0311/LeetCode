@@ -6,6 +6,6 @@ public:
             res += min(abs(ch - point), 26 - abs(point - ch));
             point = ch;
         }
-        return res;        
+        return res;          
     }
 };
