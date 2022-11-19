@@ -1,22 +1,17 @@
 class Solution {
 public:
     int shortestPath(vector<vector<int>>& grid, int k) {
-        int m = grid.size();
-        int n = grid[0].size();
-        // This vector stores the number of obstacles that we can still remove after walking through that cell
-        vector<vector<int>> visited(m, vector<int>(n, -1));
-        
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>> visited(m,vector<int>(n,-2));
         queue<vector<int>> q;
-        // x, y, currentLength, remaining k
         q.push({0,0,0,k});
-        while(!q.empty()){
+        // x, y, currentLength, remaining k
+        while(!q.empty()) {
             
             auto t = q.front();
             q.pop();
             
             int x = t[0], y = t[1];
-            
-            // Invalid cases being dealt here since it's easier to write one condition instead of 4 while pushing.
             if(x<0 || x>=m || y<0 || y>=n)
                 continue;
             
@@ -43,9 +38,8 @@ public:
             q.push({x+1, y, t[2]+1, t[3]});
             q.push({x-1, y, t[2]+1, t[3]});
             q.push({x, y+1, t[2]+1, t[3]});
-            q.push({x, y-1, t[2]+1, t[3]});
+            q.push({x, y-1, t[2]+1, t[3]});            
         }
-        
         return -1;
     }
 };
