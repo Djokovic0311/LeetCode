@@ -1,7 +1,6 @@
 class Solution {
 public:
-    int lengthOfLongestSubstringKDistinct(string s, int k) 
-    {
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
         int res = 0;
         unordered_map<char, int> count; // track number occurances of each char between 'l' & 'r'
         for(int l = 0, r = 0; r < s.length(); ++r) 
@@ -14,6 +13,6 @@ public:
             }
             res = max(res, r-l+1);
         }
-        return res;
+        return res;        
     }
 };
