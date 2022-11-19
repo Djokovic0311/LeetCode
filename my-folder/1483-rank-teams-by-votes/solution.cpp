@@ -3,6 +3,7 @@ public:
     string rankTeams(vector<string>& votes) {
         int n = votes.size(), m = votes[0].size();
         vector<vector<int>> vec(m, vector<int>(26, 0));
+        
         for (auto v : votes) {
             for (int i = 0; i < m; ++i) {
                 vec[i][v[i] - 'A']++;
@@ -16,6 +17,6 @@ public:
             }
             return a < b;
         });
-        return str;        
+        return str;
     }
 };
