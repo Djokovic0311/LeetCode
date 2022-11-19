@@ -1,21 +1,20 @@
+
 class Solution {
 public:
-    int helper(vector<int>& nums, int i, int j, int chance) {
-        if(i > j) return 0;
-        if(chance == 0) {
-            return max(nums[i] + helper(nums, i+1, j, 1), nums[j] + helper(nums, i, j-1,1));
-        }
-        else return min(helper(nums,i + 1,j,0) ,helper(nums,i,j-1,0));
+    bool scores(vector<int>& nums, bool a_turn, int score_a,int score_b, int i,int j)
+    {
+        if(i>j)
+            return score_a>=score_b;
+        
+        if(a_turn)
+            return scores(nums,false,score_a+nums[i],score_b,i+1,j)||scores(nums,false,score_a+nums[j],score_b,i,j-1);
+            
+        
+        return scores(nums,true,score_a,score_b+nums[i],i+1,j)&&scores(nums,true,score_a,score_b+nums[j],i,j-1);
+        
+        
     }
     bool PredictTheWinner(vector<int>& nums) {
-        int player2 = 0;
-                
-        for(auto x:nums) player2+=x;
-        
-        
-         int player1=helper(nums,0,nums.size() - 1,0);
-        player2-=player1;
-        
-        return player1>=player2;
+        return scores(nums,true,0,0,0,nums.size()-1);
     }
 };
