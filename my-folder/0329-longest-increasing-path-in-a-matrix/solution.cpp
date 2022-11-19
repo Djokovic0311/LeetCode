@@ -4,6 +4,7 @@ public:
     int dfs(vector<vector<int>> &mat, int i, int j, int pre) {
         if (i < 0 || j < 0 || i == mat.size() || j == mat[0].size() || pre >= mat[i][j])
             return 0;
+        
         if (dp[i][j]) return dp[i][j];
         int l = dfs(mat, i, j - 1, mat[i][j]);
         int r = dfs(mat, i, j + 1, mat[i][j]);
