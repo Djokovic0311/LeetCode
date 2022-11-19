@@ -11,9 +11,11 @@ public:
         vector<string> v;
         unordered_set<string> s;
         int n=words.size(),c;
+
         for(int i=0;i<n;i++)
-        s.insert(words[i]);
-        for(int i=0;i<n;i++)
+            s.insert(words[i]);
+
+        for(int i=0; i<n; i++)
         {
             c=0;
             string str;
@@ -23,13 +25,13 @@ public:
                 str=words[i].substr(0,j);
                 k=str.size();
                 if(s.find(str)!=s.end())
-                c++;
+                    c++;
             }
             if(c==k)
-            v.push_back(str);
+                v.push_back(str);
         }
         if(v.size()==0)
-        return "";
+            return "";
         sort(v.begin(),v.end(),comp);
         return v[v.size()-1];
     }
