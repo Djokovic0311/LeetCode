@@ -17,7 +17,9 @@ public:
                 else if(sign == '-') stk.push(curr*(-1)); //'Cause it has to be subtracted from ans
                 
                 else if(sign == '*'){
+                    cout << s[i] << endl;
                     int num = stk.top(); stk.pop();  //Pop the top of the stack
+                    cout << num << ' ' << curr;
                     stk.push(num*curr); //Multiply it with the current value & push the result into stack
                 }
                 
@@ -25,7 +27,7 @@ public:
                     int num = stk.top();stk.pop(); 
                     stk.push(num/curr);  //Divide it with curr value & push it into the stack
                 }
-                
+                // cout << curr << ' ';
                 curr = 0; 
                 sign = s[i]; 
             }
