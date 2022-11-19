@@ -1,56 +1,53 @@
 class Solution {
 public:
+    int checkrightleft(vector<int> A, vector<int> B, vector<int> C) {
+       
+        return ((B[0] - A[0]) * (C[1] - A[1])) - ((B[1] - A[1]) * (C[0] - A[0]));
+    }
+    
+    
     vector<vector<int>> outerTrees(vector<vector<int>>& trees) {
-        vector<vector<int>> res;
-        vector<int> first = trees[0];
-        int firstIdx = 0, n = trees.size();
-        for (int i = 1; i < n; ++i) {
-            if (trees[i][0] < first[0]) {
-                first = trees[i];
-                firstIdx = i;
+        if (trees.size() <= 3) return trees;
+        sort(trees.begin(), trees.end());
+        
+		// Upper HULL
+        vector<vector<int>> Uppr_tree;
+        Uppr_tree.push_back(trees[0]);
+        Uppr_tree.push_back(trees[1]);
+         
+        for (int i = 2; i < trees.size(); i++) {
+         int ls= Uppr_tree.size();
+            while (Uppr_tree.size() >= 2 && checkrightleft(Uppr_tree[ls-2], Uppr_tree[ls-1], trees[i]) > 0) {
+                Uppr_tree.pop_back();
+              ls--;
             }
+            Uppr_tree.push_back(trees[i]);
         }
-        res.push_back(first);
-        vector<int> cur = first;
-        int curIdx = firstIdx;
-        while (true) {
-            vector<int> next = trees[0];
-            int nextIdx = 0;
-            for (int i = 1; i < n; ++i) {
-                if (i == curIdx) continue;
-                int cross = crossProduct(cur, trees[i], next);
-                if (nextIdx == curIdx || cross > 0 || (cross == 0 && dist(trees[i], cur) > dist(next, cur))) {
-                    next = trees[i];
-                    nextIdx = i;
-                }
+        
+		// Lower HULL
+        vector<vector<int>> rTrees;
+        rTrees.push_back(trees[trees.size() - 1]);
+        rTrees.push_back(trees[trees.size() - 2]);
+        for (int i = trees.size() - 3; i >= 0; --i) {
+            int rs = rTrees.size(); 
+            while (rTrees.size() >= 2 && checkrightleft(rTrees[rs-2], rTrees[rs-1], trees[i]) > 0) {
+                rTrees.pop_back();
+                rs--;
             }
-            for (int i = 0; i < n; ++i) {
-                if (i == curIdx) continue;
-                int cross = crossProduct(cur, trees[i], next);
-                if (cross == 0) {
-                    if (check(res, trees[i])) res.push_back(trees[i]);
-                }
-            }
-            cur = next;
-            curIdx = nextIdx;
-            if (curIdx == firstIdx) break;
+            rTrees.push_back(trees[i]);
         }
-        return res;
-    }
-    int crossProduct(vector<int> A, vector<int> B, vector<int> C) {
-        int BAx = A[0] - B[0];
-        int BAy = A[1] - B[1];
-        int BCx = C[0] - B[0];
-        int BCy = C[1] - B[1];
-        return BAx * BCy - BAy * BCx;
-    }
-    int dist(vector<int> A, vector<int> B) {
-        return (A[0] - B[0]) * (A[0] - B[0]) + (A[1] - B[1]) * (A[1] - B[1]);
-    }
-    bool check(vector<vector<int>>& res, vector<int> p) {
-        for (vector<int> r : res) {
-            if (r[0] == p[0] && r[1] == p[1]) return false;
-        }
-        return true;
+        
+		 vector<vector<int>> answer(Uppr_tree.size()+rTrees.size());
+        merge(Uppr_tree.begin(),
+                   Uppr_tree.end(),
+                   rTrees.begin(),
+                   rTrees.end(),
+                   answer.begin());
+      
+        
+        sort(answer.begin(), answer.end());
+        answer.erase(std::unique(answer.begin(), answer.end()), answer.end());
+        
+        return answer;
     }
 };
