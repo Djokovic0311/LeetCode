@@ -10,11 +10,11 @@ public:
                 score = 0;
             }
             else{
-                // while(!stk.empty()){
                     score = stk.top() + max(2 * score, 1);
                     stk.pop();
-                // }
             }
+            cout << score << ' ';
+            // if(!stk.empty()) cout << stk.top();
         }
         return score;
     }
