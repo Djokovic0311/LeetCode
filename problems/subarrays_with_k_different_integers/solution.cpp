@@ -1,36 +1,34 @@
-class Solution {
+class Solution { 
 public:
-    int fun(int k,vector<int> nums)
-    {
-        if(k==0) return 0;
-        unordered_map<int,int> mp;
-        int j=0;
-        int count=0;
-        int n=nums.size();
-        int total=0;
+    int fun(int k,vector<int> nums) {
+        int res = 0;
+        int i = 0, j = 0;
+        int n = nums.size();
         vector<int> freq(n+1,0);
-        for(int i=0;i<n;i++)
-        {
-            if(freq[nums[i]]==0) count++;
+        int count = 0;
+
+        for(int i = 0; i < n; i++){
+            if(freq[nums[i]] == 0) count++;
             freq[nums[i]]++;
-            if(count<=k) total+=(i-j+1); // (i-j+1) = number of subarrays ending at i-th position which contains number of different integers less than or equal to k
-            else
-            {
-                while(count>k)
-                {
+            if(count <= k) {
+                res += (i-j+1);
+            }
+            else {
+                while(count > k){
                     freq[nums[j]]--;
-                    if(freq[nums[j]]==0)
-                    {
+                    if(freq[nums[j]]== 0) {
                         count--;
                     }
                     j++;
                 }
-                total+=(i-j+1);
+                res += (i-j+1);
             }
-        }
-        return total;
+
+        }    
+        return res;    
     }
     int subarraysWithKDistinct(vector<int>& nums, int k) {
-       return fun(k,nums)-fun(k-1,nums);
+        return fun(k, nums) - fun(k-1,nums);
+
     }
 };
