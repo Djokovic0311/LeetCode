@@ -1,7 +1,7 @@
 class Solution {
 public:
     void solve(vector<vector<char>>& board) {
-         queue<pair<int,int>> q;
+        queue<pair<int,int>> q;
         int m=board.size(),n=board[0].size();
 		
 		//Getting boundary O's
@@ -33,6 +33,6 @@ public:
 		//all the unsorrounded O's are re-entered
         for(int i=0;i<m;i++)
             for(int j=0;j<n;j++)
-                board[i][j]=board[i][j]=='.'?'O':'X';        
+                board[i][j]=board[i][j]=='.'?'O':'X';               
     }
 };
