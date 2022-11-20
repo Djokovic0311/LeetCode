@@ -29,6 +29,6 @@ public:
                     h = mid - 1;
             }
         }
-        return false;        
+        return false;             
     }
 };
