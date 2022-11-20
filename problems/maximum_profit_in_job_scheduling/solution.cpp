@@ -11,9 +11,13 @@ public:
         sort(jobs.begin(), jobs.end());
         map<int, int> dp = {{0, 0}};
         for (const auto &job : jobs) {
+            // for(auto it = dp.begin(); it != dp.end(); it++) {
+            //     cout << it->first << ' ' << it->second << endl;
+            // }
+            // cout << endl;
             const auto cur = prev(dp.upper_bound(job[1]))->second + job[2];
             if (cur > dp.rbegin()->second) dp[job[0]] = cur;
         } 
-        return dp.rbegin()->second;
+        return dp.rbegin()->second;        
     }
 };
