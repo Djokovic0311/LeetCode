@@ -10,39 +10,26 @@
  */
 class Solution {
 public:
-    ListNode* merge(ListNode* l1, ListNode* l2) {
-        ListNode * cur = new ListNode(0);
-        ListNode * tmp = cur;
-        while(l1 && l2) {
-            if(l1->val < l2->val) {
-                cur->next = l1;
-                l1 = l1->next;
-            }
-            else {
-                cur->next = l2;
-                l2 = l2->next;
-            }
-            cur = cur->next;
-        }
-        if(l1) {
-			cur->next = l1;
-		}
-        if(l2) {
-			cur->next = l2;
-		}
-        return tmp->next;
-        
-    }
     ListNode* sortList(ListNode* head) {
+        vector<pair<int, ListNode*>> v;
         if(!head || !head->next) return head;
-        ListNode* slow = head;
-        ListNode* fast = head->next;
-        while(fast && fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
+        while(head) {
+            v.push_back(make_pair(head->val, head));
+            head = head->next;
         }
-        fast = slow->next;
-        slow->next = NULL;
-        return merge(sortList(head), sortList(fast));       
+        sort(v.begin(), v.end());
+        cout << v.size();
+        ListNode* dummy = new ListNode(-1);
+        ListNode* h = dummy;
+        // dummy->next = h
+        for(auto p : v) {
+            
+            h->next = p.second;
+            
+            h = h->next;
+            cout << h->val << endl;
+        }
+        h->next = NULL;
+        return dummy->next;
     }
 };
