@@ -6,7 +6,6 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
@@ -39,6 +38,6 @@ public:
             headB=headB->next;
             headA=headA->next;
         }
-        return headA;
+        return headA;        
     }
 };
