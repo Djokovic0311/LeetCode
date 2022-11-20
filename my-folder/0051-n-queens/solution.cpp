@@ -1,13 +1,13 @@
 class Solution {
 public:
-    std::vector<std::vector<std::string> > solveNQueens(int n) {
-        std::vector<std::vector<std::string> > res;
-        std::vector<std::string> nQueens(n, std::string(n, '.'));
+    vector<vector<string> > solveNQueens(int n) {
+        vector<vector<string> > res;
+        vector<string> nQueens(n, string(n, '.'));
         solveNQueens(res, nQueens, 0, n);
         return res;
     }
 private:
-    void solveNQueens(std::vector<std::vector<std::string> > &res, std::vector<std::string> &nQueens, int row, int &n) {
+    void solveNQueens(vector<vector<string> > &res, vector<string> &nQueens, int row, int &n) {
         if (row == n) {
             res.push_back(nQueens);
             return;
@@ -19,7 +19,7 @@ private:
                 nQueens[row][col] = '.';
             }
     }
-    bool isValid(std::vector<std::string> &nQueens, int row, int col, int &n) {
+    bool isValid(vector<string> &nQueens, int row, int col, int &n) {
         //check if the column had a queen before.
         for (int i = 0; i != row; ++i)
             if (nQueens[i][col] == 'Q')
