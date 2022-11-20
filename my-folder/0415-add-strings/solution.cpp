@@ -32,6 +32,6 @@ public:
             res.push_back(char(sum%10 + '0'));
         reverse(res.begin(), res.end());
         
-        return res;        
+        return res;              
     }
 };
