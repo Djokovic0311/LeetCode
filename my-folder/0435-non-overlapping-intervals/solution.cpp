@@ -10,6 +10,7 @@ public:
         for(vector<int> i : intervals) {
             if(i[0] < prev[1]) {
                 // prev = i;
+                // cout << 
                 res++;
             }
             else prev = i;
