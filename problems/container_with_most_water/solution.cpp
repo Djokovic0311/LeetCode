@@ -10,6 +10,6 @@ public:
                 l++;
             else r--;
         }
-        return res;
+        return res;        
     }
 };
