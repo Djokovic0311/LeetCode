@@ -11,22 +11,22 @@
  */
 class Solution {
 public:
-    int preInd=0;
+    int id = 0;
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        return create(preorder,inorder,0,preorder.size()-1);
+        return create(preorder, inorder, 0, preorder.size()-1);
     }
     TreeNode* create(vector<int>& preorder, vector<int>& inorder, int start, int end) {
-        if(start >  end) return NULL;
-        TreeNode* node = new TreeNode(preorder[preInd++]);
-        int pos;
+        if(start > end) return NULL;
+        TreeNode* node = new TreeNode(preorder[id++]);
+        int pos = 0;
         for(int i = start; i <= end; i++) {
             if(inorder[i] == node->val) {
                 pos = i;
                 break;
             }
         }
-        node->left = create(preorder,inorder,start,pos-1);
-        node->right = create(preorder,inorder,pos+1, end);
+        node->left = create(preorder, inorder, start, pos-1);
+        node->right = create(preorder, inorder, pos+1, end);
         return node;
     }
 };
