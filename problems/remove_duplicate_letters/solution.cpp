@@ -1,7 +1,7 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        string res="";
+         string res="";
         int lastPos[26] = {}; // the last position of the char
         bool added[26] = {};  // if the char is added to the result
         for (int i = 0; i < s.size(); i++)
@@ -19,6 +19,6 @@ public:
             res.push_back(s[i]);
             added[s[i] - 'a'] = true;
         }
-        return res;
+        return res;       
     }
 };
