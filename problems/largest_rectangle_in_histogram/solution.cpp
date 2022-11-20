@@ -4,11 +4,14 @@ public:
         stack<int> st;
         int ans=0;
         heights.push_back(0);
+
         for(int i=0;i<heights.size();i++){
             while(!st.empty() && heights[st.top()]>heights[i]){
+                // cout << i << endl;
                 int top=heights[st.top()];
                 st.pop();
                 int ran=st.empty()?-1:st.top();
+                // cout << top << ' ' << i-ran-1 << endl;
                 ans=max(ans,top*(i-ran-1));
             }
             st.push(i);
