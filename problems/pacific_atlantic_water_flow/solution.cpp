@@ -1,44 +1,26 @@
 class Solution {
 public:
-    int m,n;
-    
-    bool s(vector<vector<bool>>& ocean, int i, int j, vector<vector<int>>& ht){
-        
-        if (i<0 || j<0 || i==m || j==n || ht[i][j]==100004) return false;
-        if (ocean[i][j]) return true;
-        
-        int k = ht[i][j];
-        ht[i][j]=100004;
-        bool zz = false;
-        if (i>0 && ht[i-1][j]<=k)   zz = zz || s(ocean,i-1,j,ht);
-        if (j>0 && ht[i][j-1]<=k)   zz = zz || s(ocean,i,j-1,ht);
-        if (i<m-1 && ht[i+1][j]<=k) zz = zz || s(ocean,i+1,j,ht);
-        if (j<n-1 && ht[i][j+1]<=k) zz = zz || s(ocean,i,j+1,ht);
-        
-        ocean[i][j]=zz;
-        ht[i][j]=k;
-        return zz;
-        
+    int m, n;
+	// denotes cells reachable starting from atlantic and pacific edged cells respectively
+    vector<vector<bool> > atlantic, pacific;
+	vector<vector<int> > ans;    
+    vector<vector<int> > pacificAtlantic(vector<vector<int>>& mat) {
+        if(!size(mat)) return ans;
+        m = size(mat), n = size(mat[0]);
+        atlantic = pacific = vector<vector<bool> >(m, vector<bool>(n, false));
+		// perform dfs from all edge cells (ocean-connected cells)
+        for(int i = 0; i < m; i++) dfs(mat, pacific, i, 0), dfs(mat, atlantic, i, n - 1);
+        for(int i = 0; i < n; i++) dfs(mat, pacific, 0, i), dfs(mat, atlantic, m - 1, i);             
+        return ans;
     }
-    
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& ht) {
-        m = ht.size();
-        n = ht[0].size();
-        vector<vector<bool>> pac(m, vector<bool> (n,false));
-        vector<vector<bool>> atl(m, vector<bool> (n,false));
-        for (int i=0; i<m; i++){
-            pac[i][0]=true;
-            atl[i][n-1]=true;
-        }
-        for (int i=0; i<n; i++){
-            pac[0][i]=true;
-            atl[m-1][i]=true;
-        }
-        vector<vector<int>> res;
-        for (int i=0; i<m; i++){
-            for (int j=0; j<n; j++){
-                if (s(pac,i,j,ht) && s(atl,i,j,ht)) res.push_back({i,j});
-            }
-        }return res;
+    void dfs(vector<vector<int> >& mat, vector<vector<bool> >& visited, int i, int j){        
+        if(visited[i][j]) return;
+        visited[i][j] = true;
+        if(atlantic[i][j] && pacific[i][j]) ans.push_back(vector<int>{i, j});    
+
+  if(i + 1 <  m && mat[i + 1][j] >= mat[i][j]) dfs(mat, visited, i + 1, j); 
+  if(i - 1 >= 0 && mat[i - 1][j] >= mat[i][j]) dfs(mat, visited, i - 1, j);
+  if(j + 1 <  n && mat[i][j + 1] >= mat[i][j]) dfs(mat, visited, i, j + 1); 
+  if(j - 1 >= 0 && mat[i][j - 1] >= mat[i][j]) dfs(mat, visited, i, j - 1);
     }
 };
