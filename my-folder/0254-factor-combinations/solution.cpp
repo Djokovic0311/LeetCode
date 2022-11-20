@@ -1,23 +1,23 @@
 class Solution {
 public:
-    vector<vector<int>> res;
-    void dfs(vector<int>& cur, int n) {
-        int i=cur.empty()?2:cur.back();
-        for(;i<=n/i;i++){
-            if(n%i==0){
-                cur.push_back(i);
-                cur.push_back(n/i);
-                res.push_back(cur);
-                cur.pop_back();
-                dfs(cur,n/i);
-                cur.pop_back();
+    void dfs(vector<vector<int>>& res, vector<int>& tmp, int n, int bottom) {
+        for(int i = bottom; i * i <= n; i++) {
+            if(n % i == 0) {
+                vector<int> new_line = tmp;
+                new_line.push_back(i);
+                dfs(res, new_line, n/i, i);
+                new_line.push_back(n/i);
+                for(int p : new_line)
+                    cout << p << ' ';
+                cout << endl;
+                res.push_back(new_line);
             }
-        } 
+        }
     }
     vector<vector<int>> getFactors(int n) {
-        vector<int> v;
-        dfs(v,n);
+        vector<vector<int>> res;
+        vector<int> tmp;
+        dfs(res, tmp, n, 2);
         return res;
-        
     }
 };
