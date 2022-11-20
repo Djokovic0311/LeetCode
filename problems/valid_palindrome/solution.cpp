@@ -9,6 +9,6 @@ public:
             else if(tolower(s[left])!=tolower(s[right])) return false;
             else {left++; right--;}
         }
-        return true;
+        return true;        
     }
 };
