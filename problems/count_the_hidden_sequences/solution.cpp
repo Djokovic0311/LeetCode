@@ -12,6 +12,6 @@ public:
             total_max = max(total_max, tmp);
         }
         cout << total_min << total_max <<endl;
-        return (upper-total_max)-(lower-total_min)+1 > 0 ? (upper-total_max)-(lower-total_min)+1 : 0;
+        return (upper-total_max)-(lower-total_min)+1 > 0 ? (upper-total_max)-(lower-total_min)+1 : 0;        
     }
 };
