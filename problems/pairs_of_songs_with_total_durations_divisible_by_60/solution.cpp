@@ -7,6 +7,6 @@ public:
             ans += mods[(60  - (time[i]%60)) % 60];
             mods[time[i]%60]++;
         }
-        return ans;
+        return ans;        
     }
 };
