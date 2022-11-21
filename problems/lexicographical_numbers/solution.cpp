@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
-        if(n==0) return {};
+         if(n==0) return {};
         vector<int> res;
         int cur = 1;
         for(int i = 0; i < n; i++) {
@@ -13,6 +13,6 @@ public:
                 while(cur%10==0) cur/=10;
             }
         }
-        return res;
+        return res;       
     }
 };
