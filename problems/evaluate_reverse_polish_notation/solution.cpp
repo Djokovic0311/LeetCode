@@ -1,11 +1,11 @@
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-        stack<int> s;
+        stack<long> s;
         for(auto& t : tokens) 
             if(t == "+" || t == "-" || t == "*" || t == "/") {
-                int op1 = s.top(); s.pop();
-                int op2 = s.top(); s.pop();
+                long op1 = s.top(); s.pop();
+                long op2 = s.top(); s.pop();
                 if(t == "+") op1 = op2 + op1;
                 if(t == "-") op1 = op2 - op1;
                 if(t == "/") op1 = op2 / op1;
