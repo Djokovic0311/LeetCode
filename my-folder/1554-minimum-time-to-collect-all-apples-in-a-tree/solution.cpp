@@ -1,13 +1,14 @@
 class Solution {
 public:
     int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
-        
         unordered_map<int, int> nodeParent;
         for (auto &e : edges){
             if (nodeParent.find(e[1]) == nodeParent.end()) nodeParent[e[1]] = e[0];
             else    nodeParent[e[0]] = e[1];
         }
-        
+        // for(auto it = nodeParent.begin(); it != nodeParent.end(); it++) {
+        //     cout << it->first << ' ' << it->second << endl;
+        // }
         queue<int> q;
         
         for (int i = 0; i < hasApple.size(); ++i)
@@ -19,7 +20,6 @@ public:
             if (currIdx != 0){
                 int nextIdx = nodeParent[currIdx];
 				
-				// if the node has NOT yet visited, then add to the queue 
                 if (!hasApple[nextIdx]){
                     hasApple[nextIdx] = true;
                     q.push(nextIdx);
@@ -32,4 +32,3 @@ public:
         return countPath <= 0 ? 0 : 2 * countPath;
     }
 };
-
