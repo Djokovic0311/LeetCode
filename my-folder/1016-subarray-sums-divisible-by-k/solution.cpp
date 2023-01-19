@@ -1,7 +1,7 @@
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-        int pref = 0; 
+                int pref = 0; 
         vector<int> cPref(k); 
         cPref[pref]++;
         int n = nums.size();
