@@ -67,3 +67,4 @@ private:
   vector<vector<int>> grid_;
   array<Node*, 2> leafNodes_;
 };
+
