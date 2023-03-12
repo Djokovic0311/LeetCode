@@ -1,41 +1,42 @@
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        if(find(wordList.begin(),wordList.end(),endWord)==wordList.end())
+        if(find(wordList.begin(), wordList.end(), endWord) == wordList.end())
             return 0;
-        set<string> s;
-        for(auto i:wordList)
-            s.insert(i);
+        
+        set<string> st;
+        for(auto w : wordList)
+            st.insert(w);
+        
         queue<string> q;
         q.push(beginWord);
-        int d=0;
-        while(!q.empty())
-        {
+
+        int d = 0;
+
+        while(!q.empty()) {
+            int n = q.size();
             d++;
-            int n=q.size();
-            while(n--)
-            {
-                string curr=q.front();
+
+            while(n--) {
+                string curr = q.front();
                 q.pop();
-                for(int i=0;i<curr.length();i++)
-                {
-                    string tmp=curr;
-                    for(char c='a';c<='z';c++)
-                    {
-                        tmp[i]=c;
-                        if(tmp==curr)
-                            continue;
-                        if(tmp==endWord)
-                            return d+1;
-                        if(s.find(tmp)!=s.end())
-                        {
+
+                int l = curr.length();
+                for(int i = 0; i < l; i++) {
+                    string tmp = curr;
+                    for(char c = 'a'; c <= 'z'; c++) {
+                        if(c == tmp[i]) continue;
+                        tmp[i] = c;
+                        if(tmp == endWord) return d+1;
+                        if(st.find(tmp) != st.end()) {
                             q.push(tmp);
-                            s.erase(tmp);
+                            st.erase(tmp);
                         }
                     }
                 }
             }
         }
-        return 0;        
+
+        return 0;
     }
 };
