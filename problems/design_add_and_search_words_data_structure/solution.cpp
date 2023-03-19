@@ -51,6 +51,7 @@ private:
     }
 };
 
+
 /**
  * Your WordDictionary object will be instantiated and called as such:
  * WordDictionary* obj = new WordDictionary();
