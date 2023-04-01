@@ -1,55 +1,29 @@
 class Solution {
-    int n, m;
-    vector<string> pizza;
-    typedef long long int LL;
-    LL P = 1e9 + 7;
-    LL g[55][55];
-    LL f[55][55][15];
-    
-    int dp(int r, int c, int rest) {
-        if (f[r][c][rest] != -1) return f[r][c][rest];
-        
-        if (rest == 0) {
-            if (g[r][c] > 0) f[r][c][rest] = 1;
-            else f[r][c][rest] = 0;
-            return f[r][c][rest];
-        }
-        
-        f[r][c][rest] = 0;
-        
-        // cut horizontally to [row, i-1] [i, n-1]
-        for (int i = r + 1; i < n; i++) {
-            if (g[r][c] - g[i][c] > 0 && g[i][c] >= rest) {
-                f[r][c][rest] = (f[r][c][rest] + dp(i, c, rest - 1)) % P;
-            }
-        }
-        
-        // cut vertically to [col, j-1] [j, m-1]
-        for (int j = c + 1; j < m; j++) {
-            if (g[r][c] - g[r][j] > 0 && g[r][j] >= rest)
-                f[r][c][rest] = (f[r][c][rest] + dp(r, j, rest - 1)) % P;
-        }
-        
-        return f[r][c][rest];
-    }
-    
 public:
     int ways(vector<string>& pizza, int k) {
-        n = pizza.size();
-        m = pizza[0].length();
-        this->pizza = pizza;
+        int m = pizza.size(), n = pizza[0].size();
+        vector<vector<vector<int>>> dp(vector(k, vector(m, vector(n, -1))));
+        vector<vector<int>> preSum(vector(m+1, vector(n+1, 0)));
+
+        for (int r = m - 1; r >= 0; r--)
+            for (int c = n - 1; c >= 0; c--)
+                preSum[r][c] = preSum[r][c+1] + preSum[r+1][c] - preSum[r+1][c+1] + (pizza[r][c] == 'A');
         
-        memset(g, 0, sizeof(g));
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = m - 1; j >= 0; j--) {
-                g[i][j] = g[i][j+1];
-                for (int l = i; l < n; l++)
-                    g[i][j] += (pizza[l][j] == 'A');
-            }
-        }
-        
-        memset(f, -1, sizeof(f));
-        
-        return dp(0, 0, k-1);
+        return dfs(m, n, k-1, 0, 0, dp, preSum);
+    }
+    int dfs(int m, int n, int k, int r, int c, vector<vector<vector<int>>>& dp, vector<vector<int>>& preSum) {
+        if (preSum[r][c] == 0) return 0; 
+        if (k == 0) return 1; 
+        if (dp[k][r][c] != -1) return dp[k][r][c];
+        int ans = 0;
+
+        for (int nr = r + 1; nr < m; nr++) 
+            if (preSum[r][c] - preSum[nr][c] > 0)
+                ans = (ans + dfs(m, n, k - 1, nr, c, dp, preSum)) % 1000000007;
+        for (int nc = c + 1; nc < n; nc++) 
+            if (preSum[r][c] - preSum[r][nc] > 0)
+                ans = (ans + dfs(m, n, k - 1, r, nc, dp, preSum)) % 1000000007;
+
+        return dp[k][r][c] = ans;
     }
 };
