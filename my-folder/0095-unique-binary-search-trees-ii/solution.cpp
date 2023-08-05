@@ -39,4 +39,3 @@ public:
         return generateTrees(1, n);
     }
 };
-
