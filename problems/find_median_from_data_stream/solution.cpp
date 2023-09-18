@@ -12,7 +12,7 @@ public:
         if (minHeap.size() > maxHeap.size()) {
             maxHeap.push(minHeap.top());
             minHeap.pop();
-        }
+        }  
     }
     double findMedian() {
         if (maxHeap.size() > minHeap.size()) return maxHeap.top();
