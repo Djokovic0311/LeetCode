@@ -2,6 +2,9 @@ class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>> res;
+        string test = "y-s";
+        sort(test.begin(), test.end());
+        cout << test ;
         unordered_map<string, vector<string>> mp;
         for(string s : strs) {
             string tmp = s;
