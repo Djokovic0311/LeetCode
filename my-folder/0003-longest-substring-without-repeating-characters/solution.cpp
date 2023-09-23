@@ -9,8 +9,6 @@ public:
             tmp += s[i];
             if(st.find(s[i]) == st.end()) {
                 st.insert(s[i]);
-                // tmp += s[i];
-                // cout << int(tmp.length()) << endl;
                 res = max(res,int(tmp.length()) );
             }
             else {
