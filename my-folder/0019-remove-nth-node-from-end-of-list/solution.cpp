@@ -28,7 +28,7 @@ public:
             prev = prev->next;
             // len--;
         }
-        cout << prev->val;
+        // cout << prev->val;
         prev->next = prev->next->next;
         return tem->next;
     }
