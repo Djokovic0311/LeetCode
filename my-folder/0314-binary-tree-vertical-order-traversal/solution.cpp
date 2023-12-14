@@ -11,21 +11,36 @@
  */
 class Solution {
 public:
-    vector<vector<int>> verticalOrder(TreeNode* root) {
-        map<int, vector<int>> mp;
-        queue<pair<int, TreeNode*>> q;
-        vector<vector<int>> ret;
-        if(root) q.push({0, root});
-        while(!q.empty()){
-            auto p = q.front();
-            q.pop();
-            mp[p.first].push_back(p.second->val);
-            if(p.second->left) q.push({p.first-1, p.second->left});
-            if(p.second->right) q.push({p.first+1, p.second->right});
+    map<int, vector<pair<int,int>>> mp;
+    int minColumn = 0, maxColumn = 0;
+    void dfs(TreeNode* node, int row, int col) {
+        if(!node) {
+            return;
         }
-        for(auto it=mp.begin(); it!=mp.end(); ++it)
-            ret.push_back(it->second);
-        return ret;
-        
+
+        mp[col].push_back(make_pair(row, node->val));
+        minColumn = min(minColumn, col);
+        maxColumn = max(maxColumn, col);
+        dfs(node->left, row+1, col-1);
+        dfs(node->right, row+1, col+1);
+    }
+    vector<vector<int>> verticalOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root) return res;
+        dfs(root, 0, 0);
+        for(int i = minColumn; i <= maxColumn; i++) {
+            sort(mp[i].begin(), mp[i].end(), [](const pair<int,int>& a, const pair<int,int>& b) {
+                return a.first < b.first;
+            }
+            );
+            vector<int> sortedColumn;
+            for(auto p : mp[i]) {
+                sortedColumn.push_back(p.second);
+            }
+
+            res.push_back(sortedColumn);
+        }
+
+        return res;
     }
 };
