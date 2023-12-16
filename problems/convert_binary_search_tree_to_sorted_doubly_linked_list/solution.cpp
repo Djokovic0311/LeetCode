@@ -31,14 +31,10 @@ public:
         else {
             helper(root->left);
             if (last) {
-                // link the previous node (last)
-                // with the current one (node)
                 last->right = root;
                 root->left = last;
             }
             else {
-                // keep the smallest node
-                // to close DLL later on
                 first = root;
             }
             last = root;
