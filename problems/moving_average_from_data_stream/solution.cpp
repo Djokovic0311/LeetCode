@@ -1,24 +1,26 @@
 class MovingAverage {
 public:
-    MovingAverage(int size) : m_size(size), m_sum(0) {}
-    
-    double next(int val) {
-        // Queue is full (Reached sliding window's size)
-        if (m_q.size() == m_size) {
-            m_sum -= m_q.front();
-            m_q.pop();
-        }
-        
-        m_q.push(val);
-        m_sum += val;
-        
-        return m_sum / (double)m_q.size();
+    int windowSum = 0;
+    int windowSize = 0;
+    queue<int> q;
+    MovingAverage(int size) {
+        windowSize = size;
     }
     
-private:
-    queue<int> m_q; // store the numbers (up to sliding window size)
-    int m_size;     // size of sliding window
-    int m_sum;      // current sum of the numbers
+    double next(int val) {
+        if(q.size() < windowSize) {
+            q.push(val);
+            windowSum += val;
+            return (double) windowSum / (double) q.size();
+        } else {
+            int tmp = q.front();
+            q.pop();
+            q.push(val);
+            windowSum -= tmp;
+            windowSum += val;
+            return (double) windowSum / (double) windowSize;
+        }
+    }
 };
 
 /**
