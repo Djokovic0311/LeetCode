@@ -10,6 +10,6 @@ public:
             else hi = mid;
         }
         
-        return lo;
+        return hi;
     }
 };
