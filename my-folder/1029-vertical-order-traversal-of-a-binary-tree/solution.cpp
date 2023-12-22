@@ -23,6 +23,7 @@ public:
         queue<pair<TreeNode*, pair<int,int>>> q;
         map<int, priority_queue<pair<int, int>, vector<pair<int, int>>, comp>> mp;
         if(!root) return res;
+        // node col row
         q.push({root, {0, 0}});
 
         while(!q.empty()) {
@@ -38,8 +39,10 @@ public:
         
         for(auto itr : mp){
             while(!itr.second.empty()){
+
                 temp.push_back(itr.second.top().second);
                 itr.second.pop();
+
             }
             res.push_back(temp);
             temp.clear();
