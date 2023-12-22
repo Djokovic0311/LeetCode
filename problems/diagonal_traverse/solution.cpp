@@ -9,7 +9,7 @@ public:
                 mp[i+j].push_back(mat[i][j]);
             }
         }
-                for(auto i:mp)
+        for(auto i:mp)
         {   if(i.first%2==0)
             {
                 for(int j=i.second.size()-1;j>=0;j--)
