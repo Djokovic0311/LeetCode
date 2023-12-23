@@ -12,14 +12,15 @@
 class Solution {
 public:
     int closestValue(TreeNode* root, double target) {
-        int result=root->val;
-        while(root){
-            if((double)root->val==target)return root->val;
-            if(abs((double)root->val-target)<abs(result-target))
-                result=root->val;
-            if(root->val>target)root=root->left;
-            else root=root->right;
+        int closest = root->val;
+        int val;
+        while(root) {
+            val = root->val;
+            closest = abs(val-target) < abs(closest-target) || abs(val-target) == abs(closest - target) && val < closest ? val : closest;
+            root = (target < root->val) ? root->left : root->right;
+            
         }
-        return result;        
+
+        return closest;
     }
 };
