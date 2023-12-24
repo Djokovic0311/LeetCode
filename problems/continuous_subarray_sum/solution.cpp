@@ -2,13 +2,15 @@ class Solution {
 public:
     bool checkSubarraySum(vector<int>& nums, int k) {
         int n = nums.size();
-        int pretemp=0, sum=0;
-        map<int,int> mods;
-        for (int i=0; i<n; i++){
-            sum = (sum + nums[i]) % k;
-            if (mods[sum]) return true;
-            mods[pretemp] ++;
-            pretemp = sum;
+        unordered_map<int,int> mp;
+        int sum = 0;
+        int presum = 0;
+
+        for(int i = 0; i < n; i++) {
+            sum += nums[i];
+            if (mp[sum % k]) return true;
+            mp[presum%k]++;
+            presum = sum;
         }
         return false;        
     }
