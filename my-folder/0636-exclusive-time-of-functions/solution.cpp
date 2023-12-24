@@ -1,37 +1,26 @@
-struct Log {
-    int id;
-    string status;
-    int timestamp;
-};
 class Solution {
 public:
     vector<int> exclusiveTime(int n, vector<string>& logs) {
-        vector<int> times(n, 0);
-        stack<Log> st;
-        for(string log: logs) {
-            stringstream ss(log);
-            string temp, temp2, temp3;
-            getline(ss, temp, ':');
-            getline(ss, temp2, ':');
-            getline(ss, temp3, ':');
+        vector<int> res(n);
+        stack<pair<int,int>> stk;
+        int prevTime = 0;
 
-            Log item = {stoi(temp), temp2, stoi(temp3)};
-            if(item.status == "start") {
-                st.push(item);
+        for(auto& log : logs) {
+            int num = stoi(log.substr(0, log.find(':')));
+            int time = stoi(log.substr(log.rfind(':') + 1));
+            if(log.find('e') != -1) {
+                res[num] += (time-prevTime+1);
+                stk.pop();
+                prevTime = time+1;
             } else {
-                assert(st.top().id == item.id);
-
-                int time_added = item.timestamp - st.top().timestamp + 1;
-                times[item.id] += time_added;
-                st.pop();
-
-                if(!st.empty()) {
-                    assert(st.top().status == "start");
-                    times[st.top().id] -= time_added;
+                if(!stk.empty()) {
+                    res[stk.top().first] += time-prevTime;
                 }
+                stk.push({num,time});
+                prevTime = time;
             }
         }
 
-        return times;
+        return res;
     }
 };
