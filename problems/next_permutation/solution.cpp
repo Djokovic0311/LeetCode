@@ -7,6 +7,7 @@ public:
         {
             if (num[i] < num[i+1]) break;
         }
+        
         reverse(begin(num)+i+1, end(num));
         if (i == -1) return;
         auto itr = upper_bound(begin(num)+i+1, end(num), num[i]);
