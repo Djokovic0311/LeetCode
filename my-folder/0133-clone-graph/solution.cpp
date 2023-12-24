@@ -21,18 +21,18 @@ public:
 
 class Solution {
 public:
-    Node* nodes[101] = {0};
-    void createNode(Node *originalNode) {
-		if (!nodes[originalNode->val]) {
-            nodes[originalNode->val] = new Node(originalNode->val);
-        }
-        for (auto n: originalNode->neighbors) {
-            if (!nodes[n->val]) createNode(n);
-            nodes[originalNode->val]->neighbors.push_back(nodes[n->val]);
-        }
-    }
+    unordered_map<Node*, Node*> mp;
     Node* cloneGraph(Node* node) {
-        if (node) createNode(node);
-        return nodes[1];
+        if(!node) return node;
+        if(mp.find(node)!=mp.end()) {
+            return mp[node];
+        }
+        Node* clonedNode = new Node(node->val);
+        mp[node] = clonedNode;
+        for(auto neighbor : node->neighbors) {
+            clonedNode->neighbors.push_back(cloneGraph(neighbor));
+        }
+
+        return clonedNode;
     }
 };
