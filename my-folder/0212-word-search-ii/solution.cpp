@@ -1,55 +1,56 @@
 class Solution {
-public:
-    vector<string> findWords(vector<vector<char>>& b, vector<string>& ws) {
-        if (!(row=b.size()) || !(col=b[0].size())) return res;
+private:
+    int rows, cols;
+    vector<string> res;
+    struct TrieNode {
+        TrieNode* nxt[26];
+        string word;
+    };
+    TrieNode* build(vector<string>& words) {
+        TrieNode* root = new TrieNode();
+        for(string s: words) {
+            TrieNode* p = root;
+            for(char c : s) {
+                // cout << c << " " ;
+                if(!p->nxt[c-'a']) {
+                    p->nxt[c-'a'] = new TrieNode();
+                }
+                p = p->nxt[c-'a'];
+            }    
+            // cout << endl;
+            p->word = s;
+        }
+
+        return root; 
+    }
+    void dfs(vector<vector<char>>& board, int i, int j, TrieNode* p) {
+        if(!(i >= 0 && i < rows && j >= 0 && j < cols)) return;
+        char c = board[i][j];
         
-        TN* r = buildTrie(ws);        
-        for (int i = 0; i < row; ++i)
-            for (int j = 0; j < col; ++j)
-                dfs(b, i, j, r);
+        if(c == '*' || !p->nxt[c-'a']) return;
+        p = p->nxt[c-'a'];
+        if(!p->word.empty()) {
+            res.push_back(p->word);
+            p->word.clear();
+        }
+        board[i][j] = '*';
+        pair<int,int> dirs[4] = {{0,1},{0,-1},{1,0},{-1,0}};
+        for (auto d : dirs) dfs(board, i+d.first, j+d.second, p);
+        board[i][j] = c;
+        
+    }
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        rows = board.size();
+        cols = board[0].size();
+        TrieNode* tn = build(words);
+        cout << "yes" << endl;
+        for(int i = 0; i < rows; i++) {
+            for(int j= 0; j < cols; j++) {
+                dfs(board, i, j, tn);
+            }
+        }
+
         return res;
     }
-    
-private:
-    struct TN {
-        TN* next[26];
-        string w;
-    };
-    
-    TN* buildTrie(vector<string>& ws) {
-        TN* r = new TN();
-        for (auto& w : ws) {
-            TN* p = r;
-            for (char c : w) {
-                if (!p->next[c-'a']) p->next[c-'a'] = new TN();
-                p = p->next[c-'a'];
-            }
-            p->w = w;
-        }
-        return r;
-    }
-    
-    bool inbound(int i, int j) {
-        return i>=0 && i<row && j>=0 && j<col;
-    }
-    
-    void dfs(vector<vector<char>>& b, int i, int j, TN* p) {
-        if (!inbound(i, j)) return;
-        char c = b[i][j];
-        if (c == '.' || !p->next[c-'a']) return;
-        p = p->next[c-'a'];
-        if (!p->w.empty()) {
-            res.push_back(p->w);
-            p->w.clear();
-        }
-        
-        b[i][j] = '.';
-        pair<int,int> dirs[4] = {{0,1},{0,-1},{1,0},{-1,0}};
-        for (auto d : dirs) dfs(b, i+d.first, j+d.second, p);
-        b[i][j] = c;
-    }
-    
-    int row, col; // board dimensions
-    vector<string> res; // words found in board
 };
-
