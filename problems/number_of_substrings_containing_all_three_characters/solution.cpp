@@ -1,20 +1,18 @@
 class Solution {
 public:
     int numberOfSubstrings(string s) {
+        vector<int> count = {0,0,0};
         int n = s.length();
-        int cnt = 0;
-        int i = 0, j = 0;
-        int count[3] = {0,0,0};
-        for(j = 0; j < n; j++) {
-            count[s[j]-'a']++;
+        int l = 0, r = 0;
+        int res= 0;
+        while(r < n) {
+            count[s[r]-'a']++;
             while(count[0] && count[1] && count[2]) {
-                // cnt++;
-                count[s[i++]-'a']--;
-                
+                count[s[l++]-'a']--;
             }
-            cout << i << endl;
-            cnt += i;
+            res += l;
+            r++;
         }
-        return cnt;
+        return res;
     }
 };
