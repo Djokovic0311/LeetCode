@@ -1,27 +1,27 @@
 class Solution {
 public:
     int shipWithinDays(vector<int>& weights, int days) {
-        if(weights.empty() || days == 0) return 0;
         int left = 0, right = 0;
-        for(auto w: weights) left = max(left, w), right += w;
-        if(days == weights.size()) return left;
+        for(auto w: weights) 
+            left = max(left, w), right += w;
 
         while(left < right) {
             int mid = left + (right - left) / 2;
-            int curr_days = 1, curr_bagsize = 0;
-            for(auto w : weights) {
-                if(curr_bagsize + w > mid) { 
-                    curr_days++; curr_bagsize = 0;
+            int currSize = 0;
+            int currDays = 1;
+            for(int w : weights) {
+                if(w + currSize > mid) {
+                    currDays++;
+                    currSize = 0;
                 }
-                curr_bagsize += w;
+                currSize += w;
             }
-            if(curr_days > days) {
-                left = mid + 1;
-            }
-            else {
+
+            if(currDays > days) {
+                left = mid+1;
+            } else {
                 right = mid;
             }
-              
         }
         return left;
     }
