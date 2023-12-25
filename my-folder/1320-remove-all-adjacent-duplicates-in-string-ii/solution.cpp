@@ -3,27 +3,27 @@ public:
     string removeDuplicates(string s, int k) {
         int n = s.size();
         if(n<k) return s;
-        
         stack<pair<char,int>> stk;
-        for(int i=0; i<n; ++i){
-            if(stk.empty() || stk.top().first != s[i]) stk.push({s[i],1});
-            else{
-                auto prev = stk.top();
+        for(int i = 0; i < n; i++) {
+            if(!stk.empty() && stk.top().first == s[i]) {
+                auto tmp = stk.top();
                 stk.pop();
-                stk.push({s[i], prev.second+1});
+                if(tmp.second+1 < k)
+                    stk.push({tmp.first, tmp.second+1});
+            } else {
+                stk.push({s[i],1});
             }
-            if(stk.top().second==k) stk.pop();
         }
-        
-        string ans = "";
-        while(!stk.empty()){
-            auto cur = stk.top();
+        string res;
+        while(!stk.empty()) {
+            auto tmp = stk.top();
             stk.pop();
-            while(cur.second--){
-                ans.push_back(cur.first);
+            while(tmp.second--){
+                res.push_back(tmp.first);
             }
         }
-        reverse(ans.begin(), ans.end());
-        return ans;        
+
+        reverse(res.begin(), res.end());
+        return res;
     }
 };
