@@ -8,9 +8,14 @@ public:
         return true;        
     }    
     bool checkOrder(string& a, string& b){
-        int i = -1;
-        while(++i < size(a) && i < size(b))
-            if(mp[a[i]] != mp[b[i]]) return mp[a[i]] < mp[b[i]];
-        return size(a) <= size(b);
-}
+        int i = 0;
+        int n1 = a.length(), n2 = b.length();
+        while(i < n1 && i < n2) {
+            if(mp[a[i]] != mp[b[i]])
+                return mp[a[i]] < mp[b[i]];
+            i++;
+        }
+        return n1 <= n2;
+    }
+
 };
