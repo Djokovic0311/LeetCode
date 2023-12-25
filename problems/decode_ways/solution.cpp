@@ -11,7 +11,7 @@ public:
                 dp[i] = dp[i+1];
                 if(i<n-1 && (s[i]=='1'||s[i]=='2'&&s[i+1]<'7')) dp[i] += dp[i+2];
             }
-            cout << dp[i] << ' ';
+            // cout << dp[i] << ' ';
         }
         return s.empty()? 0 : dp[0];
     }
