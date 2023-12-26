@@ -1,21 +1,15 @@
 class Solution {
 public:
     bool canPermutePalindrome(string s) {
-        vector<int>hash(26,0);
-        int flag{0};
-        
-        for(auto x:s)
-        {
-            hash.at(x-'a')++;
+        unordered_map<char,int> mp;
+        for(char c : s) {
+            mp[c]++;
         }
-        for(auto x:hash)  if(x%2 == 1) flag++;
-        
-        if(s.size() % 2 ==1)
-        {
-            if(flag == 1) return 1;
-            else return 0;
+        int odd = 0;
+        for(auto it = mp.begin(); it != mp.end(); it++) {
+            if(it->second % 2== 1) odd++;
+            if(odd > 1) return false;
         }
-        
-        return flag == 0;
+        return true;
     }
 };
