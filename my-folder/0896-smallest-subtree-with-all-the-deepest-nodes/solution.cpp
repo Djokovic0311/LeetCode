@@ -11,12 +11,12 @@
  */
 class Solution {
 public:
-    int getDepth(TreeNode *root) {
-        return root ? 1 + max(getDepth(root->left), getDepth(root->right)) : 0;
+    int depth(TreeNode* root) {
+        if(!root) return 0;
+        return 1+ max(depth(root->right), depth(root->left));
     }
-
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        int l = getDepth(root->left), r = getDepth(root->right);
-        return l == r ? root : subtreeWithAllDeepest(l > r ? root->left : root->right);
+        int l = depth(root->left), r = depth(root->right);
+        return l == r ?  root : (l > r ?  subtreeWithAllDeepest(root->left) : subtreeWithAllDeepest(root->right));
     }
 };
