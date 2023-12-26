@@ -11,23 +11,43 @@
  */
 class Solution {
 public:
-    vector<int> boundaryOfBinaryTree(TreeNode* root) {
-        vector<int> bounds;
-        if (root) {
-            bounds.push_back(root->val);
-            getBounds(root->left, bounds, true, false);
-            getBounds(root->right, bounds, false, true);
-        }
-        return bounds;
+    bool isLeaf(TreeNode* node) {
+        return node->left == NULL && node->right == NULL;
     }
-
-private:
-    void getBounds(TreeNode* node, vector<int>& res, bool lb, bool rb) {
-        if (!node)  return;
-        if (lb) res.push_back(node->val);
-        if (!lb && !rb && !node->left && !node->right)  res.push_back(node->val);
-        getBounds(node->left, res, lb, rb && !node->right);
-        getBounds(node->right, res, lb && !node->left, rb);
-        if (rb) res.push_back(node->val);
+    void addLeaves(vector<int>& res, TreeNode* root) {
+        if(isLeaf(root)) {
+            res.push_back(root->val);
+            return;
+        }
+        if(root->left) addLeaves(res, root->left);
+        if(root->right) addLeaves(res, root->right);
+    }
+    vector<int> boundaryOfBinaryTree(TreeNode* root) {
+        vector<int> res;
+        if(!root) return res;
+        if(!isLeaf(root)) res.push_back(root->val);
+        TreeNode* node = root->left;
+        while(node) {
+            if(!isLeaf(node)) {
+                res.push_back(node->val);
+            }
+            if(node->left) node = node->left;
+            else node = node->right;
+        }
+        addLeaves(res, root);
+        node = root->right;
+        stack<int> stk;
+        while(node) {
+            if(!isLeaf(node)) {
+                stk.push(node->val);
+            }
+            if(node->right) node = node->right;
+            else node = node->left;
+        }
+        while(!stk.empty()) {
+            res.push_back(stk.top());
+            stk.pop();
+        }
+        return res;
     }
 };
