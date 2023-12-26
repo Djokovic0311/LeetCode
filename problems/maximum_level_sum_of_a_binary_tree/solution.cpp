@@ -29,12 +29,10 @@ public:
                 
             }
             level++;
-            cout << cur << ' ' << mx << endl;
             if(cur > mx) {
                 curlevel = level;
                 mx = cur;
             }
-            cout << curlevel;
         }
         return curlevel;
     }
