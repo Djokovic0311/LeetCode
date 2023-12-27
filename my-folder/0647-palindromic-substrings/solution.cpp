@@ -1,6 +1,6 @@
 class Solution {
 public:
-int countSubstrings(string s) {
+    int countSubstrings(string s) {
         if(s.length()==0) return 0;
         int res= 0;
         for(int i=0; i<s.length(); i++) {
