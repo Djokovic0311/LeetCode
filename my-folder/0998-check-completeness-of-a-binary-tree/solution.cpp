@@ -16,15 +16,19 @@ public:
         v.push_back(root);
         int i = 0; 
         while(i < v.size() && v[i]) {
+            // cout << i << endl;
             v.push_back(v[i]->left);
             v.push_back(v[i]->right);
             i++;
         }
-        
-        // cout << i;
+        // 1 2 3 4 5 6 null null null null null null null
+        // i = 6
+        // 1 2 3 4 5 null 7 null null null null 
+        // i = 5
+
+    
         while (i < v.size() && !v[i])
             i++;
         return i == v.size();
-        // return true;
     }
 };
