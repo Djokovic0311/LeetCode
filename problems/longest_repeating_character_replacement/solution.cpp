@@ -1,18 +1,20 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int right = 0, left = 0, maxLetter = 0;
-        int alphabet[26] = {0};
-        while(right < s.length()){
-            alphabet[s[right] - 'A']++;
-            maxLetter = max(maxLetter, alphabet[s[right] - 'A']);
-            right++;
-            
-            if(right - left - maxLetter > k){
-                alphabet[s[left] - 'A']--;
-                left++;
+        int chars[26] = {0};
+        int n = s.length();
+        int l = 0, r = 0;
+        int max_freq = 0;
+        while(r < n) {
+            chars[s[r]-'A']++;
+            max_freq = max(max_freq, chars[s[r]-'A']);
+            r++;
+            if(r-l-max_freq > k) {
+                chars[s[l]-'A']--;
+                l++;
             }
+
         }
-        return right - left;
+        return r-l;
     }
 };
