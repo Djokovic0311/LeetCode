@@ -11,21 +11,22 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> result;
-    set<int> to_delete;
-    TreeNode* dfs(TreeNode* root, vector<int>& to_delete, vector<TreeNode*>& result, bool isroot) {
+    vector<TreeNode*> res;
+    TreeNode* dfs(TreeNode* root, vector<int>& to_delete, bool isroot) {
         if(!root) return NULL;
         bool deleted = false;
-        for(int i : to_delete)
-            if(i == root->val)
+        for(int d : to_delete){
+            if(d == root->val)
                 deleted = true;
-        if(isroot && !deleted) result.push_back(root);
-        root->left = dfs(root->left, to_delete, result, deleted);
-        root->right = dfs(root->right, to_delete, result,deleted);
-        return deleted? NULL : root;
+        }
+
+        if(isroot && !deleted) res.push_back(root);
+        root->left = dfs(root->left, to_delete, deleted);
+        root->right = dfs(root->right, to_delete, deleted);
+        return deleted ? NULL : root;
     }
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        dfs(root, to_delete, result, true);
-        return result;
+        dfs(root, to_delete, true);
+        return res;
     }
 };
