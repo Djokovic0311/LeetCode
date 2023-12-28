@@ -2,8 +2,7 @@ class Solution {
 public:
     void wallsAndGates(vector<vector<int>>& rooms) {
         vector<vector<int>> DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        if(rooms.size() == 0 || rooms[0].size() == 0)
-            return;
+
         queue<pair<int,int>> q;
         int m = rooms.size(), n = rooms[0].size();
         for(int i = 0; i < m; i++) {
