@@ -10,40 +10,59 @@
 class Codec {
 public:
 
+    // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        ostringstream out;
-        serialize(root, out);
-        return out.str();
-    }
+        string ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        if(root == nullptr) return "";
 
-    TreeNode* deserialize(string data) {
-        istringstream in(data);
-        return deserialize(in);
-    }
-
-private:
-
-    void serialize(TreeNode* root, ostringstream& out) {
-        if (root) {
-            out << root->val << ' ';
-            serialize(root->left, out);
-            serialize(root->right, out);
-        } else {
-            out << "# ";
+        while(!q.empty()) {
+            auto cur = q.front();
+            q.pop();
+            if(cur) {
+                ans += to_string(cur->val) + " ";
+                q.push(cur->left);
+                q.push(cur->right);
+            }
+            else ans += "1010 ";
         }
+        return ans;
     }
 
-    TreeNode* deserialize(istringstream& in) {
-        string val;
-        in >> val;
-        if (val == "#")
-            return nullptr;
-        TreeNode* root = new TreeNode(stoi(val));
-        root->left = deserialize(in);
-        root->right = deserialize(in);
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int l = data.length();
+        if(l == 0) return NULL;
+        stringstream s(data);
+        int cur_val;
+        s>>cur_val;
+        TreeNode* root = new TreeNode(cur_val);
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            auto cur = q.front();
+            q.pop();    
+            s>>cur_val;
+            if(cur_val == 1010){
+                cur->left = nullptr;
+            }else {
+                cur->left = new TreeNode(cur_val);
+                q.push(cur->left);
+            }
+            s>>cur_val;
+            if(cur_val == 1010){
+                cur->right = nullptr;
+            }else {
+                cur->right = new TreeNode(cur_val);
+                q.push(cur->right);
+            }
+
+        }
         return root;
     }
 };
+
 // Your Codec object will be instantiated and called as such:
 // Codec ser, deser;
 // TreeNode* ans = deser.deserialize(ser.serialize(root));
