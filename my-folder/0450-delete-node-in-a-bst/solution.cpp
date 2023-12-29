@@ -11,20 +11,21 @@
  */
 class Solution {
 public:
-    int findminfromright(TreeNode* root){
-        while(root->left!=nullptr)
-            root=root->left;
-        return root->val;
+    int findMin(TreeNode* node) {
+        while(node->left) {
+            node = node->left;
+        }
+        return node->val;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if(root == NULL) return root;
+        if(!root) return NULL;
         if(root->val > key) root->left = deleteNode(root->left, key);
         else if(root->val < key) root->right = deleteNode(root->right, key);
         else {
             if(root->right == NULL) return root->left;
             else if(root->left == NULL) return root->right;
             else {
-                root->val = findminfromright(root->right);
+                root->val = findMin(root->right);
                 root->right = deleteNode(root->right, root->val);
             }
         }
