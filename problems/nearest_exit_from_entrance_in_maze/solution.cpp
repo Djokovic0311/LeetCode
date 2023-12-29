@@ -1,37 +1,41 @@
 class Solution {
 public:
-    bool isValid(vector<vector<char>>& maze, vector<vector<bool>>& visited, int i,int j) {
-        return i < maze.size() && i>= 0 && j < maze[0].size() && j >=0&& maze[i][j] !='+' && !visited[i][j];
-    }
-    bool isexit(vector<vector<char>>& maze, int i,int j) {
-        return maze[i][j] !='+' && (i == 0 || i == maze.size()-1 || j == 0 || j == maze[0].size()-1);
-    }
-    int nearestExit(vector<vector<char>>& maze, vector<int>& e) {
+    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
         int m = maze.size(), n = maze[0].size();
-        int dirs[5] = {0, -1, 0, 1, 0};
-
-        auto is_exit = [&](int i, int j) -> int
-        {
-            return (i!=e[0] || j!=e[1]) && (i*j==0 or i==m-1 or j==n-1);
-        };
-        
-        deque<array<int,3>> dq = {{e[0],e[1],0}};
-        
-        while (!dq.empty())
-        {
-            auto [i,j,s] = dq.front(); dq.pop_front();
-            
-            for (int d = 0; d < 4; ++d)
-            {
-                int ii = i + dirs[d], jj = j + dirs[d + 1];
-                if (ii < 0 or ii >= m or jj < 0 or jj >= n or maze[ii][jj] == '+')
-                    continue;
-                maze[ii][jj] = '+';
-                if (is_exit(ii,jj)) return s+1;
-                dq.push_back({ii,jj,s+1});
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(maze[i][j] == '.' && (i == 0 || j == 0 || i == m-1 || j == n-1) && (i != entrance[0] || j != entrance[1])) {
+                    maze[i][j] = 'E';
+                }
             }
         }
-        
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+
+        queue<pair<int,int>> q;
+        q.push({entrance[0], entrance[1]});
+        int steps = 0;
+        while(!q.empty()) {
+            int sz = q.size();
+            steps++;
+
+            for(int i = 0; i < sz; i++) {
+                auto tmp = q.front();
+                q.pop();
+                for(int i = 0; i < 4; i++) {
+                    int nx = tmp.first + dx[i], ny = tmp.second + dy[i];
+
+                    if(nx >= 0 && nx <m && ny >= 0 && ny <n) {
+                        if(maze[nx][ny] == 'E') return steps;
+                        else if(maze[nx][ny] != '+') {
+                            maze[nx][ny] = '+';
+                            q.push({nx, ny});
+                        }
+                    }
+                }
+            }
+            
+        }
         return -1;
     }
 };
