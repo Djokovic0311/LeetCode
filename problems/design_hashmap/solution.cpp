@@ -1,17 +1,34 @@
+
 class MyHashMap {
 public:
-    int data[1000001];
-    MyHashMap() {
-        fill(data, data + 1000000, -1);
+    vector<pair<int,int>> vec;
+
+    MyHashMap() {}
+
+    void put(int key, int value) {
+        for(int i=0;i<vec.size();i++) {
+            if(vec[i].first == key) {
+                vec[i].second = value; //update the existing key's value
+                return;//exit the function after updating
+            }
+        }
+        vec.push_back({key, value});//if the key doesn't exist, add a new key-value pair
     }
-    void put(int key, int val) {
-        data[key] = val;
-    }
+
     int get(int key) {
-        return data[key];
+        for(int i=0;i<vec.size();i++) {
+            if(vec[i].first == key)return vec[i].second;//return the value if key is found
+        }
+        return -1;//return -1 if key is not found
     }
+
     void remove(int key) {
-        data[key] = -1;
+        for(int i = 0; i < vec.size(); i++) {
+            if(vec[i].first == key) {
+                vec.erase(vec.begin()+i);//remove the key-value pair
+                return;//exit the function after removing
+            }
+        }
     }
 };
 
