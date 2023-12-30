@@ -2,27 +2,23 @@ class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
         vector<vector<int>> res;
-        size_t i = 0;
-        
-        // Left part (no intersection with newInterval)
-        while (i < intervals.size() && intervals[i][1] < newInterval[0]) {
-            res.push_back(intervals[i]);
-            ++i;
+        int n = intervals.size();
+        int idx = 0;
+        while(idx < n && intervals[idx][1] < newInterval[0]) {
+            res.push_back(intervals[idx]);
+            idx++;
         }
-        
-        // newInterval part (with or without merge)
-        while (i < intervals.size() && intervals[i][0] <= newInterval[1]) {
-            newInterval[0] = min(newInterval[0], intervals[i][0]);
-            newInterval[1] = max(newInterval[1], intervals[i][1]);
-            ++i;
+
+        while(idx < n && newInterval[1] >= intervals[idx][0]) {
+            newInterval[0] = min(newInterval[0], intervals[idx][0]);
+            newInterval[1] = max(newInterval[1], intervals[idx][1]);
+            idx++;
         }
         res.push_back(newInterval);
-        
-        // Right part (no intersection with newInterval)
-        while (i < intervals.size() && intervals[i][0] > newInterval[1]) {
-            res.push_back(intervals[i]);
-            ++i;
+        while(idx < n) {
+            res.push_back(intervals[idx++]);
         }
+
         return res;        
     }
 };
