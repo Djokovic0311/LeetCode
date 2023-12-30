@@ -1,18 +1,18 @@
 class NumArray {
 public:
-    NumArray(vector<int>& nums)
-    {        
-        m_sums.resize(nums.size()+1, 0);
-        int acc=0;
-        transform(nums.cbegin(), nums.cend(), m_sums.begin()+1, [&acc](int a){return acc+=a;});
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        sum.push_back(nums[0]);
+        for(int i = 1; i < n; i++) {
+            sum.push_back(nums[i] + sum[i-1]);
+        }
     }
     
-    int sumRange(int left, int right) 
-    {     
-        return m_sums[right+1] - m_sums[left];
+    int sumRange(int left, int right) {
+        return left == 0 ? sum[right] : sum[right] - sum[left-1];
     }
-private:        
-    std::vector<int> m_sums;
+private:
+    vector<int> sum;
 };
 
 /**
