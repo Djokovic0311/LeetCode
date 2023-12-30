@@ -16,7 +16,6 @@ public:
             if(cnt > 1) {
                 string s = to_string(cnt);
                 for(char& ch : s) {
-                    
                     chars[idx] = ch;
                     idx++;
                 }
