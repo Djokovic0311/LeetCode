@@ -2,7 +2,6 @@ class Solution {
 public:
     string reverseWords(string s) {
         stringstream ss(s);
-        // ss << s;
         string word;
         string res;
         stack<string> stk;
