@@ -3,26 +3,28 @@ public:
     string decodeString(string s) {
         stack<char> stk;
         int n = s.length();
-        for(int i = 0; i < n; i++) {
-            if(s[i] != ']')
+        for(int i =0;i < n; i++) {
+            if(s[i] != ']') {
                 stk.push(s[i]);
-            else {
-                string cur = "";
+            } else {
+                string tmp = "";
                 while(!stk.empty() && stk.top() != '[') {
-                    cur = stk.top() + cur;
+                    tmp = stk.top() + tmp;
                     stk.pop();
                 }
+                // pop [
                 stk.pop();
-                string num = "";
+                string number = "";
                 while(!stk.empty() && isdigit(stk.top())) {
-                    num = stk.top() + num;
+                    number = stk.top() + number;
                     stk.pop();
                 }
-                int n = stoi(num);
-                while(n--){
-                    for(int p = 0; p < cur.size() ; p++)
-                        stk.push(cur[p]);
-                }                
+                int time = stoi(number);
+                while(time--) {
+                    for(int p = 0; p < tmp.size() ; p++)
+                        stk.push(tmp[p]);
+                }
+
             }
         }
         s = "";
