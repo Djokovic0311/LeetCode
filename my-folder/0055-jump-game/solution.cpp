@@ -2,27 +2,12 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
-        vector<bool> visited(n, false);
-
-        queue<pair<int,int>> q;
-        q.push({0,nums[0]});
-
-        visited[0] = true;
-        if(n == 1) return true;
-        while(!q.empty()) {
-            auto [idx, jump] = q.front();
-            q.pop();
-            for(int i = 1; i <= jump; i++) {
-                int nidx = idx + i;
-                // cout << idx << ' ' << jump << endl; 
-                if(nidx < n && !visited[nidx]) {
-                    visited[nidx] = true;
-                    q.push({nidx, nums[nidx]});
-                }
-                if(visited[n-1]) return true;           
+        int last_pos = n-1;
+        for(int i = n-1; i >= 0; i--) {
+            if(i + nums[i] >= last_pos) {
+                last_pos = i;
             }
-
         }
-        return false;
+        return last_pos == 0;
     }
 };
