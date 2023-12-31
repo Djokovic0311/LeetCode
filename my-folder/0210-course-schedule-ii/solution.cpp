@@ -28,7 +28,7 @@ public:
             
         }
         if (res.size() != numCourses)
-        res.clear();
+            res.clear();
         return res;        
     }
 };
