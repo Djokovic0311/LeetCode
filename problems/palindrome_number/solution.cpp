@@ -1,8 +1,15 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
-        string rev = to_string(x);
-        reverse(rev.begin(), rev.end());
-        return to_string(x) == rev;
+        if(x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        } 
+        int revertedNumber = 0;
+        while(x > revertedNumber) {
+            revertedNumber = revertedNumber * 10 + x % 10;
+            x /= 10;
+        }       
+
+        return x == revertedNumber || x == revertedNumber/10;
     }
 };
