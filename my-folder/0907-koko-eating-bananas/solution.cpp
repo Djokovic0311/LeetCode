@@ -1,42 +1,30 @@
 class Solution {
 public:
-    int hoursRequired(const vector<int> &piles, int k)
-    {
-        int h = 0;
-        if(k == 0) return INT_MAX;
-        for(int i : piles)
-        {
-            if(i % k != 0)
-            {
-                h++;
+    int calcTime(vector<int>& piles, int speed) {
+        int hours = 0;
+        for(int p : piles) {
+            if(p < speed) hours++;
+            else {
+                hours += (p % speed == 0) ? p/speed : p/speed+1;
             }
-            h += (i / k);
         }
-        return h;
+
+        return hours;
     }
     int minEatingSpeed(vector<int>& piles, int h) {
+        int sum = 0;
         int n = piles.size();
-        sort(piles.begin(), piles.end());
-        long long sum = 0;
-        for(auto p : piles) sum += p;
-        int l, r;
-        if(sum % h == 0) l = sum/h;
-        else l = sum/h + 1;
-        r = piles[n-1];
-        // int res = INT_MAX;
-        while(l < r) {
-            int mid = l + (r - l) / 2;
-            int ans = hoursRequired(piles, mid);
-			// If hours required is greater than our limit, ignore mid
-            if(ans > h)
-            {
-                l = mid + 1;
-            }
-            else
-            {
-                r = mid;
+        int left = 1, right = *max_element(piles.begin(), piles.end());
+        while(left < right) {
+            int mid = left + (right-left)/2;
+            int hours = calcTime(piles, mid);
+            if(hours >h) {
+                left = mid+1;
+            } else {
+                right = mid;
             }
         }
-        return l;
+
+        return left;
     }
 };
