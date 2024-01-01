@@ -1,20 +1,14 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& a) {
-        int ans = a[0];
-        int n = a.size();
-        int cnt = 1;
-        for(int i = 1; i < n; i++){
-            if(a[i] == ans){
-                cnt++;
-            } else{
-                cnt--;
+    int majorityElement(vector<int>& nums) {
+        int count = 0;
+        int candidate = INT_MIN;
+        for(int num : nums) {
+            if (count == 0) {
+                candidate = num;
             }
-            if(cnt < 0) {
-                cnt = 0;
-                ans = a[i];
-            }
+            count += (num == candidate) ? 1 : -1;
         }
-        return ans;
+        return candidate;
     }
 };
