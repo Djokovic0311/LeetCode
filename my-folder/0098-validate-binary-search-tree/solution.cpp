@@ -11,24 +11,14 @@
  */
 class Solution {
 public:
-    void inOrder(TreeNode* root) {
-        if (!root)
-            return;
-        inOrder(root->left);
-        tree.push_back(root->val);
-        inOrder(root->right);
+    bool validate(TreeNode* root, TreeNode* low, TreeNode* high) {
+        if(!root) return true;
+        if((low && root->val <= low->val) || (high && root->val >= high->val)) {
+            return false;
+        }
+        return validate(root->right, root, high) && validate(root->left, low, root);
     }
-   
     bool isValidBST(TreeNode* root) {
-        if (!root)
-            return true;
-        
-        inOrder(root);
-        for (int i=1; i<tree.size(); i++)
-            if (tree[i] <= tree[i-1])
-                return false;
-        return true;
+        return validate(root, NULL, NULL);
     }
-private:
-    vector<int> tree;
 };
