@@ -8,15 +8,10 @@ public:
         while(num > 0){
             int tmp = num % 10;
             num /= 10;
-            if(result * 10 > INT_MAX) 
+            if(result * 10 + tmp> INT_MAX) 
                 return 0;
             result = result * 10 + tmp;
         }
-        
-        if(flag == 0){
-            return result;
-        }
-        else return (-1) * result;
-
+        return flag == 0 ? result : -result;
     }
 };
