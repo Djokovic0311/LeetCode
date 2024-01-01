@@ -1,15 +1,17 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-	int n = size(nums), i = 0, maxReachable = 0, lastJumpedPos = 0, jumps = 0;
-	while(lastJumpedPos < n - 1) {  
-		maxReachable = max(maxReachable, i + nums[i]);  
-		if(i == lastJumpedPos) {			  
-			lastJumpedPos = maxReachable;     // so just move to that maxReachable position
-			jumps++;                          // and increment the level
-		}            
-		i++;
-	}
-	return jumps;
+        int n = nums.size();
+        int res = 0;
+        int cur_end = 0, cur_far = 0;
+        for(int i = 0;i < n-1; i++) {
+            cur_far = max(cur_far, i + nums[i]);
+            if(i == cur_end) {
+                res++;
+                cur_end = cur_far;
+            }
+        }
+
+        return res;
     }
 };
