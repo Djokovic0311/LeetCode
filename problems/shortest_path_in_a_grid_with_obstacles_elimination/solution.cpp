@@ -12,33 +12,25 @@ public:
             q.pop();
             
             int x = t[0], y = t[1];
-            if(x<0 || x>=m || y<0 || y>=n)
+            if(x >= m || x < 0 || y >= n || y < 0) {
                 continue;
-            
-            // If you've reached the end, great, return the currentLength!
-            if(x == m-1 && y == n-1)
-                return t[2]; //currentLength of the path
-             
-            // If we hit an obstacle & we don't have any Ks remaining, continue
-            // If we still have Ks to spend, we spend 1.
-            if(grid[x][y] == 1){
-                if(t[3] > 0)
-                    t[3]--;
-                else
-                    continue;
             }
-
+            if(x == m-1 && y == n-1) {
+                return t[2];
+            }
+            if(grid[x][y] == 1) {
+                if(t[3] > 0) {
+                    t[3]--;
+                } else continue;
+            }
             if(visited[x][y]!=-1 && visited[x][y] >= t[3]){
                 continue;
             }
-            
-           visited[x][y] = t[3];
-                
-            // Push the adjacent nodes in the queue.
+            visited[x][y] = t[3];
             q.push({x+1, y, t[2]+1, t[3]});
             q.push({x-1, y, t[2]+1, t[3]});
             q.push({x, y+1, t[2]+1, t[3]});
-            q.push({x, y-1, t[2]+1, t[3]});            
+            q.push({x, y-1, t[2]+1, t[3]});
         }
         return -1;
     }
