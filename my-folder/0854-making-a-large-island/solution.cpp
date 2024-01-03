@@ -46,6 +46,7 @@ public:
 
     int dfs(int r, int c, int& index) {
         // calculate the area
+        // return the current cell + all its neighbors' area
         int ans = 1;
         grid[r][c] = index;
         for(int move : neighbors(r,c)) {
