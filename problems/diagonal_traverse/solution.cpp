@@ -2,24 +2,29 @@ class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
         int m = mat.size(), n = mat[0].size();
-        vector<int> res;
-        map<int, vector<int>>mp;
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                mp[i+j].push_back(mat[i][j]);
+        vector<int> res(m*n);
+        if(m == 0 || n == 0) return res;
+        int row = 0, col = 0;
+        int direction =1;
+        int r = 0;
+        while(row < m && col < n) {
+            res[r++] = mat[row][col];
+            int nr = row + (direction == 1? -1 : 1);
+            int nc = col + (direction == 1 ? 1 : -1);
+            if(nr < 0 || nr == m || nc < 0 || nc == n) {
+                if(direction == 1) {
+                    row += (col == n-1 ? 1 : 0);
+                    col += (col < n-1 ? 1 : 0);
+                } else {
+                    col += (row == m-1 ? 1 : 0);
+                    row += (row < m-1 ? 1 : 0);
+                }
+                direction = 1 - direction;
+            } else {
+                row = nr;
+                col = nc;
             }
-        }
-        for(auto i:mp)
-        {   if(i.first%2==0)
-            {
-                for(int j=i.second.size()-1;j>=0;j--)
-                    res.push_back(i.second[j]);
-            }
-            else
-            {
-                for(int j=0;j<i.second.size();j++)
-                    res.push_back(i.second[j]);
-            }
+            
         }
         return res;
     }
