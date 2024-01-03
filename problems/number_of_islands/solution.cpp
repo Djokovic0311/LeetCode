@@ -1,14 +1,14 @@
 class Solution {
 public:
     void dfs(vector<vector<char>>& grid, int i, int j) {
-        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == '0')
+        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] == '0' || grid[i][j] == 'm')
             return;
         if(grid[i][j] == '1') {
             grid[i][j] = 'm';
-        dfs(grid, i+1,  j);
-        dfs(grid, i-1, j);
-        dfs(grid,i, j+1);
-        dfs(grid,i,j-1);            
+            dfs(grid, i+1,  j);
+            dfs(grid, i-1, j);
+            dfs(grid,i, j+1);
+            dfs(grid,i,j-1);            
         }
         
     }
