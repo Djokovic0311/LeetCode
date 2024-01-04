@@ -1,22 +1,33 @@
 class Solution {
 public:
-    vector<string> wordBreak(string s, vector<string>& wordDict) {
-        
-        unordered_set<string>word_Set(wordDict.begin(),wordDict.end());
-        int n = s.length();
-        vector<vector<string>> dp(n+1, vector<string>());
-        dp[0].push_back("");
-
-        for(int i = 0; i < n; i++) {
-            for(int j = i+1; j <= n; j++) {
-                string tmp = s.substr(i, j-i);
-                if(word_Set.count(tmp)) {
-                    for(auto str : dp[i]) {
-                        dp[j].push_back(str + (str == "" ? "" : " ") + tmp);
-                    }
+    void backtracking(vector<string>& res, string s, unordered_set<string>& st, vector<string>& tmp) {
+        if(s.length() == 0) {
+            string sent = "";
+            for(string t : tmp) {
+                if(sent == "") {
+                    sent += t;
+                } else {
+                    sent += " ";
+                    sent += t;
                 }
             }
+            res.push_back(sent);
+            return;
         }
-        return dp[n];
+
+        for(int i = 0; i < s.length(); i++) {
+            string sub = s.substr(0, i+1);
+            if(st.count(sub)) {
+                tmp.push_back(sub);
+                backtracking(res, s.substr(i+1), st, tmp);
+                tmp.pop_back();
+            }
+        }
+    }
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        vector<string> res, tmp;
+        unordered_set<string> word_Set(wordDict.begin(),wordDict.end());
+        backtracking(res, s, word_Set, tmp);
+        return res;
     }
 };
