@@ -1,15 +1,22 @@
 class Solution {
 public:
-    vector<string> letterCombinations(string digits) {
-        if(digits == "") return {};
-        vector<string> mappings{"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}, ans{""};
-        for(auto digit : digits){
-            vector<string> extendCombination;
-            for(auto& currentCombination : ans)
-                for(auto newChar : mappings[digit - '2'])
-                    extendCombination.push_back(currentCombination + newChar);                            
-            ans = extendCombination; // same as ans = extendCombination, just avoids copying each value. You Can also use swap(ans,extendCombination)
+    void backtracking(vector<string>& mapping, vector<string>& res, string tmp, int index, string digits) {
+        if(index == digits.length()) {
+            res.push_back(tmp);
+            return;
         }
-        return ans;        
+        for(char c : mapping[digits[index]-'2']) {
+            tmp += c;
+            backtracking(mapping, res, tmp, index+1, digits);
+            tmp.pop_back();
+        }    
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()){
+            return {};
+        }
+        vector<string> mappings{"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}, ans;
+        backtracking(mappings, ans, "", 0, digits);
+        return ans;
     }
 };
