@@ -16,7 +16,7 @@ public:
         }
     int result = 0;
 
-    while(index < len && isDigit(s[index])){
+    while(index < len && isdigit(s[index])){
       int digit = s[index] - '0';
       if(result > (INT_MAX / 10) || (result == (INT_MAX / 10) && digit > 7)){
           return isNeg ? INT_MIN : INT_MAX;
@@ -28,11 +28,6 @@ public:
       
     return isNeg ? -result : result;
   }
-    
-private:
-  bool isDigit(char ch){
-    return ch >= '0' && ch <= '9';
-  }
-    
+
 };
 
