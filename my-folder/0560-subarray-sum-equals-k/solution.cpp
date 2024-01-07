@@ -9,9 +9,8 @@ public:
         }
         unordered_map<int,int> mp;
         int res = 0;
+        mp[0] = 1;
         for(int i = 0; i < n; i++) {
-            if(prefix[i] == k)
-                res++;
             if(mp.find(prefix[i]-k) != mp.end()) {
                 res += mp[prefix[i]-k];
             }
