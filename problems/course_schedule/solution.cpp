@@ -12,12 +12,9 @@ public:
             int u = prerequisites[i][0];
             int v = prerequisites[i][1];
             adj[v].push_back(u);
+            indegree[u]++;
         }
         
-        for(int i=0; i<numCourses; i++){
-            for(auto it : adj[i])
-                indegree[it]++;
-        }
         for(int i=0; i<numCourses; i++){
             if(indegree[i] == 0)
                 q.push(i);
