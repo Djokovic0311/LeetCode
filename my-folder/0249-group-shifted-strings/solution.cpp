@@ -9,9 +9,7 @@ public:
             for(int i = 0; i < tmp.length(); i++) {
                 tmp[i] -= start;
                 if(tmp[i] < 'a') tmp[i] = 'z' -('a'-tmp[i]-1);
-                else if(tmp[i] > 'z') tmp[i] = 'a' + (tmp[i]-'z'-1);
             }
-            cout << tmp << " " << s << endl;
             mp[tmp].push_back(s);
         }
 
