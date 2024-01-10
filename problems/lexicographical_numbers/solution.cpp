@@ -1,18 +1,25 @@
 class Solution {
 public:
-    vector<int> lexicalOrder(int n) {
-         if(n==0) return {};
-        vector<int> res;
-        int cur = 1;
-        for(int i = 0; i < n; i++) {
-            res.push_back(cur);
-            cur *= 10;
-            while(cur>n) {
-                cur /= 10;
-                cur++;
-                while(cur%10==0) cur/=10;
+    void dfs(int sum, int n, vector<int>& res) {
+        if(sum > n) {
+            return;
+        }
+
+        for(int i = 0; i <= 9; i ++) {
+            if(sum*10 + i <= n) {
+                res.push_back(sum*10+i);
+                dfs(sum * 10 + i, n, res);
             }
         }
-        return res;       
+    }
+    vector<int> lexicalOrder(int n) {
+        vector<int> res;
+        for(int i = 1; i <= 9; i++) {
+            if(i <= n) {
+                res.push_back(i);
+                dfs(i, n, res);
+            }
+        }
+        return res;
     }
 };
