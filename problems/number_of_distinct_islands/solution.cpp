@@ -7,10 +7,8 @@ public:
         grid[r][c] = 0;
         vector<vector<int>> dir{{0,1},{0,-1}, {1,0}, {-1,0}};
         vector<string> path{"r", "l", "d", "u"};
-        int k = 0;
         for(int i = 0; i < 4; i++) {
             s += path[i];
-            // cout << k
             dfs(grid, r + dir[i][0], c + dir[i][1], s);
         }
         s += "e"; // end
@@ -23,7 +21,6 @@ public:
                 if(grid[r][c] == 1) {
                     string s = "s"; // start
                     dfs(grid, r, c, s);
-                    cout << s << endl;
                     uset.insert(s);
                 }
             }
