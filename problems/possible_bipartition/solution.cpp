@@ -1,43 +1,35 @@
 class Solution {
 public:
-    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
-        int i, j, k, u, v, s;
-        vector<vector<int>> graph(n, vector<int>());
+    bool bfs(int source, vector<vector<int>>& adjList, vector<int>& color) {
         queue<int> q;
-        vector<int> visited(n, 0);
-        
-        for(i = 0; i < dislikes.size(); i++){
-            u = dislikes[i][0] - 1;
-            v = dislikes[i][1] - 1;
-            graph[u].push_back(v);
-            graph[v].push_back(u);
-        }
-        
-        for(i = 0; i < n; i++){
-            if(visited[i] != 0){
-                continue;
-            }
-            q.push(i);
-            visited[i] = 1;
-            while(!q.empty()){
-                s = q.size();
-                for(j = 0; j < s; j++){
-                    u = q.front();
-                    q.pop();
-                    for(k = 0; k < graph[u].size(); k++){
-                        v = graph[u][k];
-                        if(visited[v] == 0){
-                            q.push(v);
-                            visited[v] = visited[u] == 1 ? 2 : 1;
-                        }
-                        
-                        if(visited[v] == visited[u]){
-                            return false;
-                        }
-                    }
+        q.push(source);
+        color[source] = 0;
+        while(!q.empty()) {
+            int tmp = q.front();
+            q.pop();
+            for(int neighbor : adjList[tmp]) {
+                if(color[neighbor] == color[tmp]) return false;
+                if(color[neighbor] == -1) {
+                    color[neighbor] = 1 - color[tmp];
+                    q.push(neighbor);
                 }
             }
         }
-        return true;        
+        return true;
+        
+    }
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>> adjList(n+1);
+        for(auto d : dislikes) {
+            adjList[d[0]].push_back(d[1]);
+            adjList[d[1]].push_back(d[0]);
+        }
+
+        vector<int> color(n+1, -1);
+        for(int i = 1; i <= n; i++) {
+            if(color[i] == -1 && !bfs(i, adjList, color)) return false;
+        }
+
+        return true;
     }
 };
