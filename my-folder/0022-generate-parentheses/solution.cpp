@@ -3,6 +3,7 @@ public:
     vector<string> res;
     void helper(int open, int close, int n, string cur) {
         if(cur.length() == 2 * n) {
+            cout << cur << endl;
             res.push_back(cur);
             return;
         }
