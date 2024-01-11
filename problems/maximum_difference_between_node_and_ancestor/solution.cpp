@@ -16,7 +16,6 @@ public:
         if(!root) return (maxi-mini);
         mini = min(mini, root->val);
         maxi = max(maxi, root->val);
-        cout << mini << ' ' << maxi << endl;
         return max(maxAncestorDiff(root->left, mini, maxi), maxAncestorDiff(root->right, mini, maxi));
     }
 };
