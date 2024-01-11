@@ -20,9 +20,7 @@ public:
         }
 
         int sum = 0;
-        
     
-
         for(int i=0;i<n;i++) {
             sum += ans[i];
         }
