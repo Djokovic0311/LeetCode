@@ -1,43 +1,32 @@
 class Solution {
 public:
     int calculate(string s) {
-        s += '+';
-        stack<int> stk; 
-        
-        long long int ans = 0, curr = 0;
-        char sign = '+'; //to store the previously encountered sign
-        
-        for(int i=0; i<s.size(); i++){
-            if(isdigit(s[i])) curr = curr*10 + (s[i]-'0'); //keep forming the number, until you encounter an operator
-            
-            else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
-                
-                if(sign == '+') stk.push(curr); //'Cause it has to added to the ans
-            
-                else if(sign == '-') stk.push(curr*(-1)); //'Cause it has to be subtracted from ans
-                
-                else if(sign == '*'){
-                    cout << s[i] << endl;
-                    int num = stk.top(); stk.pop();  //Pop the top of the stack
-                    cout << num << ' ' << curr;
-                    stk.push(num*curr); //Multiply it with the current value & push the result into stack
+        int curr = 0, last = 0;
+        char sign = '+';
+        s += '+';  // Append '+' to handle the last number
+        int result = 0;
+
+        for(int i = 0; i < s.length(); i++) {  // Use s.length() to include the appended '+'
+            if(isdigit(s[i])) {
+                curr = (curr * 10) + (s[i] - '0');
+            } else if(s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/') {
+                if(sign == '+') {
+                    result += last;
+                    last = curr;
+                } else if(sign == '-') {
+                    result += last;
+                    last = (-1) * curr;
+                } else if(sign == '*') {
+                    last = last * curr;
+                } else if(sign == '/') {
+                    last = last / curr; 
                 }
-                
-                else if(sign == '/'){
-                    int num = stk.top();stk.pop(); 
-                    stk.push(num/curr);  //Divide it with curr value & push it into the stack
-                }
-                // cout << curr << ' ';
-                curr = 0; 
-                sign = s[i]; 
+
+                sign = s[i];
+                curr = 0;
             }
-            
         }
-        
-        while(stk.size()){
-            ans += stk.top(); stk.pop();
-        }
-            
-        return ans;        
+
+        return result + last;
     }
 };
