@@ -12,10 +12,11 @@
 class Solution {
 public:
     bool find(TreeNode* root, int val, string& path) {
+        if(!root) return false;
         if(root->val == val) return true;
-        if(root->left && find(root->left, val, path))
+        if(find(root->left, val, path))
             path.push_back('L');
-        else if(root->right && find(root->right, val, path))
+        else if(find(root->right, val, path))
             path.push_back('R');
         return !path.empty();
     }
@@ -23,10 +24,10 @@ public:
         string s_p, d_p;
         find(root, startValue, s_p);
         find(root, destValue, d_p); 
-    while (!s_p.empty() && !d_p.empty() && s_p.back() == d_p.back()) {
-        s_p.pop_back();
-        d_p.pop_back();
-    }       
-    return string(s_p.size(), 'U') + string(rbegin(d_p), rend(d_p));      
+        while (!s_p.empty() && !d_p.empty() && s_p.back() == d_p.back()) {
+            s_p.pop_back();
+            d_p.pop_back();
+        }       
+        return string(s_p.size(), 'U') + string(rbegin(d_p), rend(d_p));      
     }
 };
