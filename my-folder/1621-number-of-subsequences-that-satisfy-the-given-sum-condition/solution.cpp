@@ -7,7 +7,6 @@ public:
         int l = 0, r = n-1;
         vector<int>pow2(n, 1);
         
-        sort(nums.begin(),nums.end());
         for(int i = 1; i < n; i++) {
             pow2[i] = 2 * pow2[i-1]% MOD;
         }
