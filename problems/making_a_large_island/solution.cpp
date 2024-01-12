@@ -27,10 +27,10 @@ public:
                 if(this->grid[i][j] == 0) {
                    
                     set<int> seen;
-                    for(int move : neighbors(i,j)) {
-                        if(this->grid[move/N][move%N] > 1) {
+                    for(auto move : neighbors(i,j)) {
+                        if(this->grid[move.first][move.second] > 1) {
                             // this cell has been visited
-                            seen.insert(this->grid[move/N][move%N]);
+                            seen.insert(this->grid[move.first][move.second]);
                         }
                     }
                     int toggle = 1; // toggle this 0 to 1
@@ -49,24 +49,24 @@ public:
         // return the current cell + all its neighbors' area
         int ans = 1;
         grid[r][c] = index;
-        for(int move : neighbors(r,c)) {
-            if(grid[move/N][move%N] == 1) {
-                grid[move/N][move%N] = index;
+        for(auto move : neighbors(r,c)) {
+            if(grid[move.first][move.second] == 1) {
+                grid[move.first][move.second] = index;
 
-                ans += dfs(move/N, move % N, index);
+                ans += dfs(move.first, move.second, index);
             }
         }
 
         return ans;
         
     }
-    vector<int> neighbors(int r, int c) {
-        vector<int> res;
+    vector<pair<int,int>> neighbors(int r, int c) {
+        vector<pair<int,int>> res;
         for(int i = 0; i < 4; i++) {
             int nr = r + dx[i];
             int nc = c + dy[i];
             if(0<= nr && nr < N && nc >= 0 && nc < N) {
-                res.push_back(nr * N + nc);
+                res.push_back({nr,nc});
             }
         }
 
