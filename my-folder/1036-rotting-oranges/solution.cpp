@@ -1,7 +1,9 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        vector<int> dir={-1,0,1,0,-1};
+
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
         int m = grid.size();
         int n = grid[0].size();
         queue<pair<int, int>> q;
@@ -24,8 +26,8 @@ public:
                 q.pop();
                 for(int i=0;i<4;i++)
                 {
-                    int r=p.first+dir[i];
-                    int c=p.second+dir[i+1];
+                    int r=p.first+dx[i];
+                    int c=p.second+dy[i];
                     if(r>=0 && r<m && c>=0 && c<n &&grid[r][c]==1)
                     {
                         grid[r][c]=2;
