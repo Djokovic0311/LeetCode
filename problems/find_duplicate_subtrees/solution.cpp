@@ -18,7 +18,6 @@ public:
         string left = solve(root->left);
         string right = solve(root->right);
         string s = to_string(root->val) +"$"+left+"$"+right;
-        cout << s << endl;
         if(ump[s]==1){
             vec.push_back(root);
         }
