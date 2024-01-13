@@ -1,6 +1,8 @@
 class Twitter {
 public:
+    // countOfPost, {userId, tweetId}
     set<pair<int, pair<int, int>>, greater<pair<int, pair<int, int>>>> s;
+    // follower: followee
     map<int, unordered_set<int>> mp;
     int countOfPost;
 
@@ -23,6 +25,7 @@ public:
         
         while(res.size() != 10 && it != s.end()){
             pair<int, pair<int, int>> p = *it;
+            // we check the posts from latest. if the user posted it is one of followee orit is user himself
             if(st.count(p.second.first) == 1 || p.second.first == userId)
                 res.push_back(p.second.second);
             it++;
