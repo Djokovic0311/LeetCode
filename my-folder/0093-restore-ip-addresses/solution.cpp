@@ -17,7 +17,8 @@ public:
                 backtracking(s, i+1, part);
                 if(part < 4) solution.pop_back();
                 part--;
-                for(int j = 0; j < i-start+1; j++) solution.pop_back();
+                for(int j = 0; j < i-start+1; j++) 
+                    solution.pop_back();
             }
         }
     }
