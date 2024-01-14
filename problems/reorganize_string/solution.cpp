@@ -1,29 +1,46 @@
-#define p pair<char, int>
-
 class Solution {
-struct numcompare {
-    bool operator() (const p &a, const p &b) {
-        return a.second < b.second;
-    }
-};
 public:
-    string reorganizeString(string S) {
-        unordered_map<char, int> map;
-        priority_queue<p, vector<p>, numcompare> pq;
-        for(char c : S) map[c]++;
-        for(auto i : map) pq.push(i);
-        string res = "";
-        p prev{'#', -1};
-        
-        while(!pq.empty()) {
-            p curr = pq.top();
-            pq.pop();
-            res += curr.first;
-            if(prev.second > 0) pq.push(prev);
-            map[curr.first]--;
-            prev = {curr.first, map[curr.first]};
+    string reorganizeString(string s) {
+        vector<int> charCounts(26, 0);
+        for (char c : s) {
+            charCounts[c - 'a']++;
         }
-        
-        return res.size() == S.size() ? res : "";
+        int maxCount = 0, letter = 0;
+        for (int i = 0; i < charCounts.size(); i++) {
+            if (charCounts[i] > maxCount) {
+                maxCount = charCounts[i];
+                letter = i;
+            }
+        }
+        if (maxCount > (s.length() + 1) / 2) {
+            return "";
+        }
+        string ans = s;
+        int index = 0;
+
+        // Place the most frequent letter
+        while (charCounts[letter] != 0) {
+            ans[index] = char(letter + 'a');
+            index += 2;
+            charCounts[letter]--;
+        }
+
+        // Place rest of the letters in any order
+        for (int i = 0; i < charCounts.size(); i++) {
+            if (charCounts[i] > 0) cout << char('a' + i) << endl;
+            while (charCounts[i] > 0) {
+                
+                if (index >= s.length()) {
+                    index = 1;
+                }
+                cout << index << " ";
+                ans[index] = char(i + 'a');
+                index += 2;
+                charCounts[i]--;
+            }
+            cout << endl;
+        }
+
+        return ans;
     }
 };
