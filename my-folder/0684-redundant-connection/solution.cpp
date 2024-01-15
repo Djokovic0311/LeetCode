@@ -1,21 +1,27 @@
 class Solution {
 public:
-    vector<int> findRedundantConnection(vector<vector<int>>& e) {
-        int n = size(e);
-        vector<vector<int>> graph(n+1);
-        vector<bool> vis(n+1);                
-        for(auto& E : e) {
-            fill(begin(vis), end(vis), false);     // reset the vis array
-            graph[E[0]].push_back(E[1]), graph[E[1]].push_back(E[0]);
-            if(dfs(graph, vis, E[0])) return E;
+    set<int> seen;
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        vector<vector<int>> graph(1001, vector<int>());
+        for(auto e : edges) {
+            seen.clear();
+            if(graph[e[0]].size() && graph[e[1]].size() && dfs(graph, e[0], e[1])) {
+                return e;
+            }
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
         }
-        return { };    // un-reachable
+        return {};
     }
-    bool dfs(vector<vector<int>>& graph, vector<bool>& vis, int cur, int par = -1) {
-        if(vis[cur]) return true;    // reached already visited node -  cycle detected
-        vis[cur] = true;
-        for(auto child : graph[cur]) 
-            if(child != par && dfs(graph, vis, child, cur)) return true;
-        return false;    // no cycle found
+    bool dfs(vector<vector<int>>& graph, int source, int target) {
+        if(!seen.count(source)) {
+            seen.insert(source);
+            if(source == target) return true;
+            for(auto neighbor : graph[source]) {
+                if(dfs(graph, neighbor, target)) return true;
+            }
+        }
+
+        return false;
     }
 };
