@@ -9,7 +9,8 @@ public:
                 ans.pop_back();
                 k--;
             }
-            if(ans.size()||c!='0')ans.push_back(c);
+            if(ans.size()||c!='0')
+                ans.push_back(c);
         }
         while(ans.size()&&k--)          
         {
