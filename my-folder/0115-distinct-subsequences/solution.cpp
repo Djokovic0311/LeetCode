@@ -1,24 +1,27 @@
 class Solution {
 public:
     int numDistinct(string s, string t) {
-	//we use unsigned int because there is a case with a quite large data
-        vector<vector<unsigned int>> dp(t.size() + 1, vector<unsigned int>(s.size() + 1));
-        
-		//set as default value of  the first line as 1
-        for (int j = 0; j <= s.size(); j++)dp[0][j] = 1;
+        int m = s.length(), n = t.length();
+        // dp[i][j] : the number of distinct subsequences of s[i,m-1] and t[j,n-1]
+        vector<vector<unsigned long long>> dp(m+1, vector<unsigned long long> (n+1,0));
+        // empty string s cannot match t
+        for(int j = 0; j <= n; j++) {
+            dp[m][j] = 0;
+        }
+        // empty string t will have one match
+        for(int i = 0; i <= m; i++) {
+            dp[i][n] = 1;
+        }
 
-//logic of the loop is above
-        for (int i = 1; i <= t.size(); i++) {
-            for (int j = 1; j <= s.size(); j++) {
-
-					if (t[i - 1] == s[j - 1]) {
-                    dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1];
-                }
-                else {
-                    dp[i][j] = dp[i][j - 1];
+        for(int i = m-1; i >= 0; i--) {
+            for(int j = n-1; j>= 0; j--) {
+                dp[i][j] = dp[i+1][j];
+                if(s[i] == t[j]) {
+                    dp[i][j] += dp[i+1][j+1];
                 }
             }
         }
-        return dp[dp.size() - 1][dp[0].size() - 1];
+
+        return dp[0][0];
     }
 };
