@@ -3,7 +3,8 @@ public:
     void solve(vector<vector<char>>& board) {
         queue<pair<int,int>> q;
         int m=board.size(),n=board[0].size();
-		
+		int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
 		//Getting boundary O's
         for(int i=0;i<m;i++)
         {
@@ -24,10 +25,13 @@ public:
             {
                 auto p=q.front();q.pop();
                 int r=p.first,c=p.second;
-                 if(r+1<m) if(board[r+1][c]=='O') board[r+1][c]='.',q.push({r+1,c});
-                 if(r-1>=0) if(board[r-1][c]=='O') board[r-1][c]='.',q.push({r-1,c});
-                 if(c+1<n) if(board[r][c+1]=='O') board[r][c+1]='.',q.push({r,c+1});
-                 if(c-1>=0) if(board[r][c-1]=='O') board[r][c-1]='.',q.push({r,c-1});    
+                for(int i = 0; i < 4; i++) {
+                    int nr = r + dx[i], nc = c + dy[i];
+                    if(nr < m && nr >= 0 && nc < n && nc >= 0 && board[nr][nc] == 'O') {
+                        board[nr][nc]='.';
+                        q.push({nr,nc});
+                    }
+                }
             }
         }
 		//all the unsorrounded O's are re-entered
