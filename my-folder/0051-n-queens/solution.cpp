@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<vector<string> > solveNQueens(int n) {
+    vector<vector<string>> solveNQueens(int n) {
         vector<vector<string> > res;
         vector<string> nQueens(n, string(n, '.'));
         solveNQueens(res, nQueens, 0, n);
