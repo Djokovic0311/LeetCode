@@ -1,34 +1,24 @@
 class Solution {
 public:
+    int dfs(int node,int parent,vector<vector<int>>& adj,vector<bool>& hasApple){
+        int edges = 0;
+        for(auto child : adj[node]){
+            if(child==parent) continue;
+            edges += dfs(child,node,adj,hasApple);
+        } 
+        if(node==0) return edges;
+        if(edges>0 || hasApple[node]){
+            return edges+1;
+        }
+        return edges;
+    }
+
     int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
-        unordered_map<int, int> nodeParent;
-        for (auto &e : edges){
-            if (nodeParent.find(e[1]) == nodeParent.end()) nodeParent[e[1]] = e[0];
-            else    nodeParent[e[0]] = e[1];
+        vector<vector<int>> adj(n);
+        for(auto edge : edges){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
         }
-        // for(auto it = nodeParent.begin(); it != nodeParent.end(); it++) {
-        //     cout << it->first << ' ' << it->second << endl;
-        // }
-        queue<int> q;
-        
-        for (int i = 0; i < hasApple.size(); ++i)
-            if (hasApple[i])  q.push(i);
-        
-        while (!q.empty()){
-            int currIdx = q.front();
-            q.pop();
-            if (currIdx != 0){
-                int nextIdx = nodeParent[currIdx];
-				
-                if (!hasApple[nextIdx]){
-                    hasApple[nextIdx] = true;
-                    q.push(nextIdx);
-                }
-            }
-        }
-        
-        int countPath = accumulate(hasApple.begin(), hasApple.end(), -1);
-        
-        return countPath <= 0 ? 0 : 2 * countPath;
+        return 2*dfs(0,-1,adj,hasApple);
     }
 };
