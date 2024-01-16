@@ -50,8 +50,6 @@ public:
             fill(childBoard.begin(),childBoard.end(),vector<double>(N,0.0));
         }
         
-
-        
         double knightProb = 0.0;
         
         // Loop through parent board after K steps and sum up all probability
