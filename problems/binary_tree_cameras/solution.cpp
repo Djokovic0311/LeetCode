@@ -11,18 +11,30 @@
  */
 class Solution {
 public:
-    int res = 0;
+    int total = 0;
     int minCameraCover(TreeNode* root) {
-        return (dfs(root) < 1 ? 1 : 0) + res;
-    }
+        int val =  postorder(root);
+        if(val==1) total++;//if val == 1 root node requires monitoring so we add a camera there.
 
-    int dfs(TreeNode* root) {
-        if (!root) return 2;
-        int left = dfs(root->left), right = dfs(root->right);
-        if (left == 0 || right == 0) {
-            res++;
+        return total;
+    }
+    int postorder(TreeNode* root){
+        if(!root) return 3;
+
+        int left = postorder(root->left);
+        int right  = postorder(root->right);
+
+        if(left==1||right==1){
+            total++;
+            return 2;
+        }
+        if(left==3&&right==3){
             return 1;
         }
-        return left == 1 || right == 1 ? 2 : 0;
+        if(left==2||right==2){
+            return 3;
+        }
+        return 0;
+
     }
 };
