@@ -7,8 +7,10 @@ public:
         for(int i = 0; i < k; i++) {
             nums[i] = nums[i+n-k];
         }
+
         for(int i = k; i < n; i++) {
             nums[i] = tmp[i-k];
         }
+        
     }
 };
