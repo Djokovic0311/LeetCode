@@ -2,7 +2,7 @@ class Solution {
 public:
     int shortestPath(vector<vector<int>>& grid, int k) {
         int m = grid.size(), n = grid[0].size();
-        vector<vector<int>> visited(m,vector<int>(n,-2));
+        vector<vector<int>> visited(m,vector<int>(n,-1));
         queue<vector<int>> q;
         q.push({0,0,0,k});
         // x, y, currentLength, remaining k
