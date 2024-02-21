@@ -16,7 +16,7 @@ public:
         else 
         {
             int res = m;
-            for (int i=m+1; i<=n;i++)
+            for (long long i=m+1; i<=n;i++)
                 res &= i;
                 
             return res;
