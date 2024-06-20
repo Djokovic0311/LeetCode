@@ -17,7 +17,7 @@ public:
     
     int minDays(vector<int>& bloomDay, int m, int k) {
         // No. of flowers req more than available
-        if(m * k > bloomDay.size())
+        if((long long)m * (long long) k > bloomDay.size())
             return -1;
         
         int low = 0, high = INT_MAX;
