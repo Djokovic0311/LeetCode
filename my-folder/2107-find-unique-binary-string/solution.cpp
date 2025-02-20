@@ -6,7 +6,7 @@ public:
             char curr = nums[i][i];
             ans += curr == '0' ? '1' : '0';
         }
-        
+    
         return ans;
     }
 };
