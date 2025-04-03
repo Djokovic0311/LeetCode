@@ -27,4 +27,3 @@ public:
         return max(result, 0LL);
     }
 };
-
