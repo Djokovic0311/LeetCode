@@ -23,4 +23,3 @@ private:
         return sum1 == sum2;
     }
 };
-
