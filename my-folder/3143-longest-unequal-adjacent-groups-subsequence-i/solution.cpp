@@ -1,8 +1,8 @@
 class Solution {
 public:
-    vector<string> getWordsInLongestSubsequence(int n, vector<string>& words, vector<int>& groups) {
-            // Resultant list of words.
-        std::vector<std::string> result;
+    vector<string> getLongestSubsequence(vector<string>& words, vector<int>& groups) {
+        // Resultant list of words.
+        vector<std::string> result;
 
         // Check if groups is empty.
         if (groups.empty()) {
@@ -21,6 +21,6 @@ public:
             }
         }
 
-        return result;
+        return result;        
     }
 };
